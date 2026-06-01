@@ -1,0 +1,19 @@
+# Dependencias (Aplica para ambos)
+node_modules/
+
+# Builds y compilaciones
+dist/
+out-tsc/
+.angular/
+
+# Variables de entorno (¡Súper importante para el backend después!)
+.env
+
+# Archivos de logs
+npm-debug.log
+yarn-error.log
+*.log
+
+# Configuraciones de editores (VS Code, etc)
+.vscode/
+.idea/

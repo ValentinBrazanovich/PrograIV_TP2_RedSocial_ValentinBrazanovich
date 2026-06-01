@@ -1,0 +1,37 @@
+<div class="contenedor-perfil">
+  <div class="tarjeta-perfil" *ngIf="usuarioActual; else noLogueado">
+    
+    <div class="cabecera-perfil">
+      <img 
+        [src]="usuarioActual.imagenPerfilUrl ? (urlBackend + usuarioActual.imagenPerfilUrl) : ('https://ui-avatars.com/api/?name=' + usuarioActual.nombre + '+' + usuarioActual.apellido + '&background=random')"
+        alt="Foto de perfil" 
+        class="foto-perfil"
+      >
+      <h2>{{ usuarioActual.nombre }} {{ usuarioActual.apellido }}</h2>
+      <p class="arroba">{{ "@" + usuarioActual.nombreUsuario }}</p>
+    </div>
+
+    <div class="info-perfil">
+      <p><strong>Correo:</strong> {{ usuarioActual.correo }}</p>
+      <p><strong>Fecha de nacimiento:</strong> {{ usuarioActual.fechaNacimiento }}</p> <br>
+      
+      <div class="biografia" *ngIf="usuarioActual.descripcionBreve">
+        <p><strong>Sobre mí:</strong></p>
+        <p>{{ usuarioActual.descripcionBreve }}</p>
+      </div>
+    </div>
+
+    <div class="acciones-perfil">
+      <button class="btn-secundario" routerLink="/publicaciones">Volver a Publicaciones</button>
+      <button class="btn-peligro" (click)="cerrarSesion()" routerLink="/login">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <ng-template #noLogueado>
+    <div class="mensaje-error">
+      <h2>Ups... no estás conectado</h2>
+      <p>Tenés que iniciar sesión para ver tu perfil.</p>
+      <button class="btn-primario" routerLink="/login">Ir al Login</button>
+    </div>
+  </ng-template>
+</div>

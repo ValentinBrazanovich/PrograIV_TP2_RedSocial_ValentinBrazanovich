@@ -1,0 +1,103 @@
+:root {
+  --fondo-carbon: #1e1e24; 
+  
+  --fondo-tarjeta: #151518; 
+  
+  --texto-claro: #f0f0f0;
+  --texto-gris: #a0a0a0;
+  --violeta-neon: #8a2be2;
+  --violeta-hover: #b026ff;
+  
+  --borde-oscuro: #3d3d4a; 
+  --error: #ff4d4d;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* degradado radial que simula luz tenue desde arriba */
+  background: radial-gradient(circle at top center, var(--fondo-carbon), #242424);
+  color: var(--texto-claro);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+/* estilos globales para enlaces */
+a {
+  color: var(--violeta-neon);
+  text-decoration: none;
+  transition: text-shadow 0.3s;
+}
+
+a:hover {
+  text-shadow: 0 0 8px rgba(138, 43, 226, 0.6);
+}
+
+/* --- ESTILOS GLOBALES PARA FORMULARIOS --- */
+.grupo-campo {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--texto-claro);
+  letter-spacing: 0.5px;
+}
+
+input, textarea {
+  background-color: var(--fondo-carbon);
+  color: var(--texto-claro);
+  border: 1px solid var(--borde-oscuro);
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* efecto neón al hacer clic en un input */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--violeta-neon);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.input-error {
+  border-color: var(--error) !important;
+}
+
+/* --- ESTILOS GLOBALES PARA BOTONES --- */
+.btn-primario {
+  background-color: var(--violeta-neon);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
+}
+
+.btn-primario:hover:not(:disabled) {
+  background-color: var(--violeta-hover);
+  box-shadow: 0 0 15px rgba(176, 38, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-primario:disabled {
+  background-color: #555;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}

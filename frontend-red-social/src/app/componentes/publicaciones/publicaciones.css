@@ -1,0 +1,150 @@
+.contenedor-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* barra superior */
+.navbar {
+  width: 100%;
+  background-color: rgba(21, 21, 24, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--borde-oscuro);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--violeta-neon);
+  letter-spacing: 1px;
+}
+
+.enlaces {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-perfil {
+  background-color: transparent;
+  border: 1px solid var(--violeta-neon);
+  color: var(--violeta-neon);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-perfil:hover {
+  background-color: var(--violeta-neon);
+  color: white;
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+/* contenedor central para que los posts no ocupen todo el ancho en monitores grandes */
+.muro {
+  width: 100%;
+  max-width: 600px;
+  padding: 30px 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.caja-crear-post {
+  background-color: var(--fondo-tarjeta);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--borde-oscuro);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.caja-crear-post textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+/* estilo para cada publicación */
+.post {
+  background-color: var(--fondo-tarjeta);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--borde-oscuro);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.post:hover {
+  border-color: #4a4a5a;
+  transform: translateY(-2px);
+}
+
+.cabecera-post {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.avatar-generico {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  /* un gradiente en vez de foto real para los posts de prueba */
+  background: linear-gradient(135deg, var(--violeta-neon), #4b0082); 
+}
+
+.info-autor {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-autor strong {
+  font-size: 1.1rem;
+}
+
+.info-autor span {
+  font-size: 0.85rem;
+  color: var(--texto-gris);
+}
+
+.contenido-post {
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.acciones-post {
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid var(--borde-oscuro);
+  padding-top: 15px;
+}
+
+.acciones-post button {
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  color: var(--texto-gris);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.acciones-post button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--violeta-neon);
+}

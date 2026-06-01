@@ -1,0 +1,77 @@
+<div class="contenedor-registro">
+  <div class="tarjeta-registro">
+    <h2>Crear cuenta nueva</h2>
+    <p>Es rápido y fácil.</p>
+
+    <form [formGroup]="formRegistro" (ngSubmit)="enviar()">
+      
+      <div class="fila-campos">
+        <div class="grupo-campo">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" formControlName="nombre">
+          <span class="error" *ngIf="formRegistro.get('nombre')?.touched && formRegistro.get('nombre')?.invalid">Requerido</span>
+        </div>
+
+        <div class="grupo-campo">
+          <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" formControlName="apellido">
+          <span class="error" *ngIf="formRegistro.get('apellido')?.touched && formRegistro.get('apellido')?.invalid">Requerido</span>
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="correo">Correo Electrónico</label>
+        <input type="email" id="correo" formControlName="correo">
+        <span class="error" *ngIf="formRegistro.get('correo')?.touched && formRegistro.get('correo')?.invalid">Correo inválido o vacío</span>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="nombreUsuario">Nombre de Usuario</label>
+        <input type="text" id="nombreUsuario" formControlName="nombreUsuario">
+        <span class="error" *ngIf="formRegistro.get('nombreUsuario')?.touched && formRegistro.get('nombreUsuario')?.invalid">Requerido</span>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+        <input type="date" id="fechaNacimiento" formControlName="fechaNacimiento">
+      </div>
+
+      <div class="fila-campos">
+        <div class="grupo-campo">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" formControlName="contrasena">
+          <span class="error" *ngIf="formRegistro.get('contrasena')?.touched && formRegistro.get('contrasena')?.hasError('pattern')">
+            Mínimo 8 caracteres, 1 mayúscula y 1 número.
+          </span>
+        </div>
+
+        <div class="grupo-campo">
+          <label for="repetirContrasena">Repetir Contraseña</label>
+          <input type="password" id="repetirContrasena" formControlName="repetirContrasena">
+          <span class="error" *ngIf="formRegistro.get('repetirContrasena')?.touched && formRegistro.get('repetirContrasena')?.hasError('noCoinciden')">
+            Las contraseñas no coinciden.
+          </span>
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="descripcionBreve">Descripción Breve</label>
+        <textarea id="descripcionBreve" formControlName="descripcionBreve" rows="3" placeholder="Contá algo sobre vos..."></textarea>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="imagenPerfil">Imagen de Perfil</label>
+        <input type="file" id="imagenPerfil" formControlName="imagenPerfil" (change)="onFileChange($event)" accept="image/*">
+        <span class="error" *ngIf="formRegistro.get('imagenPerfil')?.touched && formRegistro.get('imagenPerfil')?.invalid">
+          Debés subir una imagen.
+        </span>
+      </div>
+
+      <button type="submit" [disabled]="formRegistro.invalid" class="btn-primario">Registrarme</button>
+    </form>
+
+    <div class="pie-tarjeta">
+      <p>¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></p>
+    </div>
+  </div>
+</div>

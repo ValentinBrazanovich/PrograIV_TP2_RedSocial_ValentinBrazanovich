@@ -1,0 +1,95 @@
+.contenedor-perfil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+.tarjeta-perfil {
+  background-color: rgba(21, 21, 24, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--borde-oscuro);
+  text-align: center;
+}
+
+/* Hacemos que la foto sea circular y tenga un brillo especial */
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--violeta-neon);
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+  margin-bottom: 15px;
+}
+
+.cabecera-perfil h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.arroba {
+  color: var(--violeta-neon);
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
+
+/* Una cajita más oscura adentro de la tarjeta para agrupar los datos */
+.info-perfil {
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  border: 1px solid var(--borde-oscuro);
+}
+
+.info-perfil p {
+  margin: 10px 0;
+}
+
+.acciones-perfil {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+/* Botones con estilo "fantasma" (solo borde) para que queden más finos */
+.btn-secundario {
+  background-color: transparent;
+  border: 1px solid var(--violeta-neon);
+  color: var(--violeta-neon);
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.btn-secundario:hover {
+  background-color: rgba(138, 43, 226, 0.1);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+}
+
+.btn-peligro {
+  background-color: transparent;
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.btn-peligro:hover {
+  background-color: rgba(255, 77, 77, 0.1);
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+}

@@ -1,0 +1,50 @@
+<div class="contenedor-login">
+  <div class="tarjeta-login">
+    <h2>¡Te damos la bienvenida a Socialite!</h2>
+    <p>Iniciá sesión para conectar con tus amigos.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="enviar()">
+      
+      <div class="grupo-campo">
+        <label for="correoOUsuario">Correo electrónico o Usuario</label>
+        <input 
+          type="text" 
+          id="correoOUsuario" 
+          formControlName="correoOUsuario" 
+          placeholder="Ej: valen_tech o valentin@test.com"
+          [class.input-error]="loginForm.get('correoOUsuario')?.touched && loginForm.get('correoOUsuario')?.invalid"
+        >
+        <span class="error" *ngIf="loginForm.get('correoOUsuario')?.touched && loginForm.get('correoOUsuario')?.hasError('required')">
+          El correo o nombre de usuario es obligatorio.
+        </span>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="contrasena">Contraseña</label>
+        <input 
+          type="password" 
+          id="contrasena" 
+          formControlName="contrasena" 
+          placeholder="********"
+          [class.input-error]="loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid"
+        >
+        <div class="errores-password" *ngIf="loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid">
+          <span class="error" *ngIf="loginForm.get('contrasena')?.hasError('required')">
+            La contraseña es obligatoria.
+          </span>
+          <span class="error" *ngIf="loginForm.get('contrasena')?.hasError('pattern')">
+            <!-- Debe tener al menos 8 caracteres, una mayúscula y un número. -->
+          </span>
+        </div>
+      </div>
+      <div class="error" *ngIf="mensajeError">{{ mensajeError }}</div>
+      <button type="submit" [disabled]="loginForm.invalid" class="btn-primario">
+        Iniciar Sesión
+      </button>
+    </form>
+
+    <div class="pie-tarjeta">
+      <p>¿No tenés cuenta? <a routerLink="/registro">Registrate</a></p>
+    </div>
+  </div>
+</div>

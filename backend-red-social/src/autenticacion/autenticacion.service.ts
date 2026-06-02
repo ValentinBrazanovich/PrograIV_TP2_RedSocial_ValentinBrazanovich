@@ -64,7 +64,7 @@ export class AutenticacionService {
       nombreUsuario: datos.nombreUsuario,
       contrasena: contrasenaEncriptada,
       fechaNacimiento: datos.fechaNacimiento,
-      descripcionBreve: datos.descripcionBreve,
+      descripcionBreve: datos.descripcionBreve || '...',
       
       imagenPerfilUrl: rutaImagenPerfil
     };

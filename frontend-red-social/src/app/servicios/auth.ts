@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class Auth {
-  private URL_API = 'http://localhost:3000/autenticacion';
+  private URL_API = 'https://backend-socialite.vercel.app/autenticacion';
   constructor(private http: HttpClient) {}
 
   registrar(datos: FormData): Observable<any> {

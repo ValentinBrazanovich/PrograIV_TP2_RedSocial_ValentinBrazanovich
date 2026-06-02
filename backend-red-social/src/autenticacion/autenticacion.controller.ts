@@ -1,7 +1,6 @@
 import { Controller, Post, Body, HttpCode, HttpStatus, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { memoryStorage } from 'multer';
 import { AutenticacionService } from './autenticacion.service';
 import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
@@ -14,22 +13,25 @@ export class AutenticacionController {
   @HttpCode(HttpStatus.CREATED) // devuelve status 201 si tiene éxito
   // interceptor que agarra la imagen
   @UseInterceptors(FileInterceptor('imagenPerfil', {
-    storage: diskStorage({
-      destination: './uploads', // la guarda en la carpeta uploads
-      filename: (req, file, cb) => {
-        // se le genera unnombre único con la fecha y un número random para que no se pisen
-        const nombreUnico = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, nombreUnico + extname(file.originalname)); // mantiene la extensión (.png, .jpg)
-      }
-    })
+    storage: memoryStorage()
   }))
+
   async registro(
     @Body() body: RegistroDto, 
     @UploadedFile() archivo: Express.Multer.File // se recibe la info del archivo guardado
   ) {
-    // si se mandó foto arma la ruta. Si no mandó guarda un texto vacío
-    const rutaImagen = archivo ? `/uploads/${archivo.filename}` : '';
-    
+
+    let rutaImagen = '';
+
+    // si el usuario mandó un archivo se a Cloudinary antes de guardar en la DB
+    if (archivo) {
+      try {
+        rutaImagen = await this.autenticacionService.subirACloudinary(archivo);
+      } catch (error) {
+        console.error('Error al subir a Cloudinary:', error);
+      }
+    }
+
     const usuarioCreado = await this.autenticacionService.registrar(body, rutaImagen);
     
     return {

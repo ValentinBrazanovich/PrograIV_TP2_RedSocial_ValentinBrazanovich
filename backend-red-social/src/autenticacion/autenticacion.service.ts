@@ -3,11 +3,37 @@ import { UsuariosService } from '../usuarios/usuarios.service';
 import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { v2 as cloudinary } from 'cloudinary';
+import * as streamifier from 'streamifier';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AutenticacionService {
-  constructor(private usuariosService: UsuariosService, private jwtService: JwtService) {}
+  constructor(private usuariosService: UsuariosService, private jwtService: JwtService) {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+  }
+
+  async subirACloudinary(archivo: Express.Multer.File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'socialite_perfiles', // nombre de la carpeta que se creará en Cloudinary
+          transformation: [{ width: 400, height: 400, crop: 'limit' }] // optimización
+        },
+        (error, result) => {
+          if (error || !result) return reject(error || new Error('Error al subir a Cloudinary'));
+          resolve(result.secure_url); // 'https://res.cloudinary.com/...'
+        },
+      );
+
+      // Convertimos el buffer de memoria en un stream de lectura y lo enviamos
+      streamifier.createReadStream(archivo.buffer).pipe(uploadStream);
+    });
+  }
 
   async registrar(datos: RegistroDto, rutaImagenPerfil?: string) {
     // valida que las contraseñas coincidan

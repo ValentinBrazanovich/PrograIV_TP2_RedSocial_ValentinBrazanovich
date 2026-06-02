@@ -11,8 +11,6 @@ import { RouterModule } from '@angular/router';
 })
 export class MiPerfil implements OnInit {
   usuarioActual: any = null;
-  
-  urlBackend = 'http://localhost:3000'; 
 
   ngOnInit(): void {
     this.cargarDatosUsuario();

@@ -3,7 +3,7 @@
     
     <div class="cabecera-perfil">
       <img 
-        [src]="usuarioActual.imagenPerfilUrl ? (urlBackend + usuarioActual.imagenPerfilUrl) : ('https://ui-avatars.com/api/?name=' + usuarioActual.nombre + '+' + usuarioActual.apellido + '&background=random')"
+        [src]="usuarioActual.imagenPerfilUrl ? (usuarioActual.imagenPerfilUrl) : ('https://ui-avatars.com/api/?name=' + usuarioActual.nombre + '+' + usuarioActual.apellido + '&background=random')"
         alt="Foto de perfil" 
         class="foto-perfil"
       >

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
-  private URL_API = 'https://backend-socialite.vercel.app/autenticacion';
+  private URL_API = `${environment.apiUrl}/autenticacion`;
   constructor(private http: HttpClient) {}
 
   registrar(datos: FormData): Observable<any> {

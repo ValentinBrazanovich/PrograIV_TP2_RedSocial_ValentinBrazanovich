@@ -92,7 +92,7 @@ export class AutenticacionService {
     // devuelve el token firmado y los datos del usuario para mostrar en el frontend
     const payload = { id: usuario._id, nombreUsuario: usuario.nombreUsuario, perfil: usuario.perfil };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      token: await this.jwtService.signAsync(payload),
       usuario: {
         id: usuario._id,
         nombre: usuario.nombre,

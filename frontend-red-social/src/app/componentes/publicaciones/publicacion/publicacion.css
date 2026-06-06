@@ -1,0 +1,225 @@
+.tarjeta-publicacion {
+  background-color: #1e1e24;
+  border-left: 4px solid #8a2be2;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+  color: #e0e0e0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.tarjeta-publicacion:hover {
+  transform: translateY(-2px);
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 12px;
+}
+
+.info-usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #8a2be2;
+}
+
+.texto-cabecera h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.fecha {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.btn-eliminar {
+  background: transparent;
+  color: #ff4a4a;
+  border: 1px solid #ff4a4a;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.btn-eliminar:hover {
+  background: rgba(255, 74, 74, 0.1);
+  box-shadow: 0 0 8px rgba(255, 74, 74, 0.4);
+}
+
+.cuerpo {
+  margin-bottom: 16px;
+}
+
+.titulo {
+  margin: 0 0 8px 0;
+  color: #ffffff;
+  /* anti-desborde */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  /* asegura que no ensanche la tarjeta */
+  min-width: 0;
+  width: 100%;
+}
+
+.descripcion {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #cccccc;
+}
+
+.contenedor-imagen {
+  margin-top: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.imagen-post {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.pie {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 12px;
+  border-top: 1px solid #333;
+}
+
+.btn-like {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-like:hover {
+  color: #a461f0;
+}
+
+/* "mágia" del Me Gusta activo con toques neón */
+.btn-like.like-activo {
+  color: #b026ff;
+  text-shadow: 0 0 10px rgba(176, 38, 255, 0.6);
+}
+
+.icono {
+  font-size: 1.4rem;
+}
+
+.contador {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 10, 15, 0.8); 
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* para que quede por encima de todo */
+}
+
+.modal-contenido {
+  background-color: var(--fondo-tarjeta, #1e1e24);
+  border: 1px solid var(--borde-oscuro, #333);
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: aparecerModal 0.2s ease-out;
+}
+
+@keyframes aparecerModal {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-contenido h3 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.modal-contenido p {
+  color: var(--texto-gris, #888);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.modal-botones {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn-cancelar, .btn-confirmar {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.btn-cancelar {
+  background-color: transparent;
+  border: 1px solid var(--borde-oscuro, #444);
+  color: #ccc;
+}
+
+.btn-cancelar:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.btn-confirmar {
+  background-color: rgba(255, 68, 68, 0.1);
+  border: 1px solid #ff4444;
+  color: #ff4444;
+}
+
+.btn-confirmar:hover {
+  background-color: #ff4444;
+  color: white;
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.4);
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -12,7 +12,7 @@ import { Auth } from '../../servicios/auth';
 })
 export class Login implements OnInit {
   loginForm!: FormGroup;
-  mensajeError: string = '';
+  mensajeError = signal<string>('');
 
   constructor(private formBuilder: FormBuilder, private router: Router, private Auth: Auth) {}
 
@@ -24,7 +24,7 @@ export class Login implements OnInit {
   inicializarFormulario(): void {
     this.loginForm = this.formBuilder.group({
       correoOUsuario: ['', [Validators.required]],
-      contrasena: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/)]],
+      contrasena: ['', [Validators.required]],
     });
   }
 
@@ -35,7 +35,7 @@ export class Login implements OnInit {
       return;
     }
 
-    this.mensajeError = '';
+    this.mensajeError.set('');
 
     this.Auth.login(this.loginForm.value).subscribe({
       next: (respuesta) => {
@@ -44,7 +44,7 @@ export class Login implements OnInit {
         this.router.navigate(['/publicaciones']);
       },
       error: (error) => {
-        this.mensajeError = error.error?.message || 'Error al iniciar sesión';
+        this.mensajeError.set(error.error?.message || 'Error al iniciar sesión');
       }
     });
   }

@@ -17,6 +17,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
     })
   ],
   controllers: [AutenticacionController],
-  providers: [AutenticacionService]
+  providers: [AutenticacionService],
+  exports: [JwtModule]
 })
 export class AutenticacionModule {}

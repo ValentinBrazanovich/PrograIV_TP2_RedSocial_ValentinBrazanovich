@@ -1,6 +1,6 @@
 <div class="contenedor-login">
   <div class="tarjeta-login">
-    <h2>¡Te damos la bienvenida a Socialite!</h2>
+    <h2>¡Te damos la bienvenida a <span class="marca-neon">Socialite</span>!</h2>
     <p>Iniciá sesión para conectar con tus amigos.</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="enviar()">
@@ -37,7 +37,7 @@
           </span>
         </div>
       </div>
-      <div class="error" *ngIf="mensajeError">{{ mensajeError }}</div>
+      <div class="error" *ngIf="mensajeError">{{ mensajeError() }}</div>
       <button type="submit" [disabled]="loginForm.invalid" class="btn-primario">
         Iniciar Sesión
       </button>

@@ -6,6 +6,11 @@
   padding: 20px;
 }
 
+.marca-neon {
+  color: var(--violeta-neon, #8a2be2);
+  text-shadow: 0 0 8px rgba(138, 43, 226, 0.4); 
+}
+
 .tarjeta-login {
   backdrop-filter: blur(10px);
   background-color: rgba(21, 21, 24, 0.85);

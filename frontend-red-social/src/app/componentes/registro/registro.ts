@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -16,6 +16,7 @@ export class Registro implements OnInit {
   formRegistro!: FormGroup;
   // aca se guarda el archivo físico seleccionado para subirlo luego al backend
   archivoSeleccionado: File | null = null; 
+  cargando = signal<boolean>(false);
 
   constructor(
     private fb: FormBuilder,
@@ -25,17 +26,18 @@ export class Registro implements OnInit {
 
   ngOnInit(): void {
     this.formRegistro = this.fb.group({
-      nombre: ['', [Validators.required]],
-      apellido: ['', [Validators.required]],
-      correo: ['', [Validators.required, Validators.email]],
-      nombreUsuario: ['', [Validators.required]],
+      nombre: ['', [Validators.required, Validators.maxLength(30)]],
+      apellido: ['', [Validators.required, Validators.maxLength(30)]],
+      correo: ['', [Validators.required, Validators.email, Validators.maxLength(60)]],
+      nombreUsuario: ['', [Validators.required, Validators.maxLength(30)]],
       contrasena: ['', [
         Validators.required,
-        Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/)
+        Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/),
+        Validators.maxLength(100)
       ]],
-      repetirContrasena: ['', [Validators.required]],
+      repetirContrasena: ['', [Validators.required, Validators.maxLength(100)]],
       fechaNacimiento: ['', [Validators.required]],
-      descripcionBreve: ['', [Validators.maxLength(250)]],
+      descripcionBreve: ['', [Validators.maxLength(150)]],
       imagenPerfil: ['', [Validators.required]] 
     }, { validators: this.passwordsCoinciden }); // se agrega el validador a todo el grupo
   }
@@ -67,6 +69,8 @@ export class Registro implements OnInit {
       return;
     }
 
+    this.cargando.set(true); // bloquea el botón y muestra el mensaje de "Cargando..." mientras se procesa el registro
+
     const formData = new FormData();
     const controles = this.formRegistro.controls;
 
@@ -90,6 +94,7 @@ export class Registro implements OnInit {
         this.router.navigate(['/login']);
       }, error: (error) => {
         console.error('Error en el registro: ', error);
+        this.cargando.set(false); // desbloquea el botón para que el usuario pueda intentar de nuevo
       }
     });
 

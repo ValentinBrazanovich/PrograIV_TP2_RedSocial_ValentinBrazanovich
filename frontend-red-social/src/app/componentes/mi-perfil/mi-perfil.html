@@ -1,37 +1,109 @@
-<div class="contenedor-perfil">
-  <div class="tarjeta-perfil" *ngIf="usuarioActual; else noLogueado">
-    
-    <div class="cabecera-perfil">
-      <img 
-        [src]="usuarioActual.imagenPerfilUrl ? (usuarioActual.imagenPerfilUrl) : ('https://ui-avatars.com/api/?name=' + usuarioActual.nombre + '+' + usuarioActual.apellido + '&background=random')"
-        alt="Foto de perfil" 
-        class="foto-perfil"
-      >
-      <h2>{{ usuarioActual.nombre }} {{ usuarioActual.apellido }}</h2>
-      <p class="arroba">{{ "@" + usuarioActual.nombreUsuario }}</p>
+<div class="layout-principal">
+  
+  <aside class="franja-lateral">
+    <div class="logo-franja">
+      <h2><span>Social</span>ite</h2>
     </div>
 
-    <div class="info-perfil">
-      <p><strong>Correo:</strong> {{ usuarioActual.correo }}</p>
-      <p><strong>Fecha de nacimiento:</strong> {{ usuarioActual.fechaNacimiento }}</p> <br>
-      
-      <div class="biografia" *ngIf="usuarioActual.descripcionBreve">
-        <p><strong>Sobre mí:</strong></p>
-        <p>{{ usuarioActual.descripcionBreve }}</p>
+    <nav class="navegacion-franja">
+      <a routerLink="/publicaciones" class="item-franja">🏠 Inicio</a>
+    </nav>
+    <button class="item-franja btn-salir" (click)="cerrarSesion()">
+        🚪 Cerrar Sesión
+      </button>
+  </aside>
+
+  <main class="contenido-perfil">
+    <div class="contenedor-perfil">
+      <div class="cabecera-perfil">
+        <div class="banner"></div>
+        
+        <div class="info-principal">
+          <div class="contenedor-avatar">
+            <img [src]="usuarioActual?.imagenPerfilUrl || 'assets/avatar-default.png'" alt="Mi Avatar" class="avatar-perfil">
+          </div>
+          
+          <div class="datos-usuario">
+            <div class="fila-titulo">
+              <h2>{{ usuarioActual?.nombre }} {{ usuarioActual?.apellido }}</h2>
+              <button class="btn-editar" (click)="abrirModalEdicion()">Editar Perfil</button>
+            </div>
+            <span class="username">@{{ usuarioActual?.nombreUsuario }}</span>
+            
+            <p class="biografia">
+              {{ usuarioActual?.descripcionBreve || 'Sin descripción... ¡Animate a contar algo sobre vos!' }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mis-posteos">
+        <h3 class="titulo-seccion">Mis Publicaciones</h3>
+        
+        <div class="feed-personal">
+          <p *ngIf="misPublicaciones().length === 0" class="mensaje-vacio">
+            Aún no hiciste ninguna publicación. ¡Rompé el hielo!
+          </p>
+
+          <app-publicacion 
+            *ngFor="let post of misPublicaciones()" 
+            [publicacion]="post" 
+            (posteoBorrado)="quitarPosteoDeLaVista(post._id)">
+          </app-publicacion>
+          <button 
+            *ngIf="misPublicaciones().length < todosLosPosteos.length" 
+            class="btn-cargar-mas" 
+            (click)="cargarMasPosteos()">
+            Cargar más posts
+          </button>
+        </div>
       </div>
     </div>
+  </main>
 
-    <div class="acciones-perfil">
-      <button class="btn-secundario" routerLink="/publicaciones">Volver a Publicaciones</button>
-      <button class="btn-peligro" (click)="cerrarSesion()" routerLink="/login">Cerrar Sesión</button>
+</div> <div class="modal-overlay" *ngIf="mostrarModal()">
+  <div class="modal-contenido">
+    <h3>Editar Mi Perfil</h3>
+    
+    <div class="formulario-edicion">
+      <div class="campo-form">
+        <label>Foto de Perfil</label>
+        <input type="file" (change)="seleccionarImagen($event)" accept="image/*" class="input-archivo">
+      </div>
+
+      <div class="campo-form">
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="datosEdicion.nombre" class="input-texto" placeholder="Tu nombre" maxlength="30">
+      </div>
+
+      <div class="campo-form">
+        <label>Apellido</label>
+        <input type="text" [(ngModel)]="datosEdicion.apellido" class="input-texto" placeholder="Tu apellido" maxlength="30">
+      </div>
+
+      <div class="campo-form">
+        <label>Nombre de Usuario</label>
+        <div class="input-arroba">
+          <span>@</span>
+          <input type="text" [(ngModel)]="datosEdicion.nombreUsuario" class="input-texto" placeholder="Nuevo usuario" maxlength="30">
+        </div>
+      </div>
+
+      <div class="campo-form">
+        <label>Biografía</label>
+        <textarea [(ngModel)]="datosEdicion.descripcion" class="input-texto textarea" placeholder="Contá algo sobre vos..." rows="3" maxlength="150"></textarea>
+      </div>
+
+      <div class="mensaje-error" *ngIf="mensajeError()">
+        {{ mensajeError() }}
+      </div>
+
+      <div class="modal-botones">
+        <button class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn-guardar" (click)="guardarCambios()" [disabled]="cargando()">
+          {{ cargando() ? 'Guardando...' : 'Guardar Cambios' }}
+        </button>
+      </div>
     </div>
   </div>
-
-  <ng-template #noLogueado>
-    <div class="mensaje-error">
-      <h2>Ups... no estás conectado</h2>
-      <p>Tenés que iniciar sesión para ver tu perfil.</p>
-      <button class="btn-primario" routerLink="/login">Ir al Login</button>
-    </div>
-  </ng-template>
 </div>

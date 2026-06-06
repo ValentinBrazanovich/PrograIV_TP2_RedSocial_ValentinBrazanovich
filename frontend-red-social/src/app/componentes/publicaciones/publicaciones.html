@@ -1,35 +1,47 @@
 <div class="contenedor-feed">
+  
   <nav class="navbar">
     <div class="logo">Socialite</div>
     <div class="enlaces">
-      <span *ngIf="usuarioActual">¡Hola, {{ usuarioActual.nombre }}!</span>
+      <span *ngIf="usuarioActual">¡Hola, {{ usuarioActual.nombreUsuario || usuarioActual.nombre }}!</span>
       <button class="btn-perfil" routerLink="/mi-perfil">Mi Perfil</button>
     </div>
   </nav>
 
-  <main class="muro">
+  <div class="muro">
     
-    <div class="caja-crear-post">
-      <textarea placeholder="¿Qué estás pensando?"></textarea>
-      <button class="btn-primario">Publicar</button>
+    <app-crear-publicacion (postCreado)="agregarNuevoPost($event)"></app-crear-publicacion>
+    
+    <div class="panel-filtros">
+      <button 
+        class="btn-filtro" 
+        [class.activo]="ordenActual === 'fecha'" 
+        (click)="cambiarOrden('fecha')">
+        Más Recientes
+      </button>
+      <button 
+        class="btn-filtro" 
+        [class.activo]="ordenActual === 'likes'" 
+        (click)="cambiarOrden('likes')">
+        Más Populares
+      </button>
     </div>
 
-    <div class="post" *ngFor="let post of posteosFalsos">
-      <div class="cabecera-post">
-        <div class="avatar-generico"></div>
-        <div class="info-autor">
-          <strong>{{ post.autor }}</strong>
-          <span>{{ post.usuario }} • {{ post.fecha }}</span>
-        </div>
-      </div>
-      <div class="contenido-post">
-        <p>{{ post.contenido }}</p>
-      </div>
-      <div class="acciones-post">
-        <button>Me gusta</button>
-        <button>Comentar</button>
+    <div class="lista-feed">
+      <app-publicacion 
+        *ngFor="let post of listaPublicaciones()" 
+        [publicacion]="post"
+        (posteoBorrado)="quitarPosteoDeLaVista(post._id)">
+      </app-publicacion>
+
+      <div *ngIf="listaPublicaciones().length === 0" class="estado-vacio">
+        <p>No hay publicaciones para mostrar. ¡Sé el primero en romper el hielo!</p>
       </div>
     </div>
 
-  </main>
+    <button *ngIf="hayMasPublicaciones && listaPublicaciones().length > 0" class="btn-cargar-mas" (click)="cargarFeed()">
+      Cargar más posts
+    </button>
+
+  </div>
 </div>

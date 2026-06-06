@@ -24,14 +24,16 @@
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--violeta-neon);
   letter-spacing: 1px;
+  color: var(--violeta-neon, #8a2be2);
+  text-shadow: 0 0 8px rgba(138, 43, 226, 0.4); 
 }
 
 .enlaces {
   display: flex;
   align-items: center;
   gap: 20px;
+  color: #e0e0e0;
 }
 
 .btn-perfil {
@@ -77,74 +79,68 @@
   min-height: 80px;
 }
 
-/* estilo para cada publicación */
-.post {
-  background-color: var(--fondo-tarjeta);
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid var(--borde-oscuro);
-  transition: transform 0.2s, border-color 0.2s;
-}
+/* --- CLASES NUEVAS FUSIONADAS CON TU ESTILO --- */
 
-.post:hover {
-  border-color: #4a4a5a;
-  transform: translateY(-2px);
-}
-
-.cabecera-post {
+.panel-filtros {
   display: flex;
-  align-items: center;
+  justify-content: center;
   gap: 15px;
-  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--borde-oscuro);
 }
 
-.avatar-generico {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  /* un gradiente en vez de foto real para los posts de prueba */
-  background: linear-gradient(135deg, var(--violeta-neon), #4b0082); 
+.btn-filtro {
+  background-color: var(--fondo-tarjeta);
+  color: var(--texto-gris, #888);
+  border: 1px solid var(--borde-oscuro);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
-.info-autor {
+.btn-filtro:hover {
+  border-color: var(--violeta-neon);
+  color: #e0e0e0;
+}
+
+.btn-filtro.activo {
+  background-color: rgba(138, 43, 226, 0.1);
+  color: var(--violeta-neon);
+  border-color: var(--violeta-neon);
+  box-shadow: 0 0 8px rgba(138, 43, 226, 0.3);
+}
+
+.lista-feed {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-.info-autor strong {
-  font-size: 1.1rem;
+.estado-vacio {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--texto-gris, #888);
+  background-color: var(--fondo-tarjeta);
+  border-radius: 12px;
+  border: 1px dashed var(--borde-oscuro);
 }
 
-.info-autor span {
-  font-size: 0.85rem;
-  color: var(--texto-gris);
-}
-
-.contenido-post {
-  line-height: 1.5;
-  margin-bottom: 15px;
-}
-
-.acciones-post {
-  display: flex;
-  gap: 10px;
-  border-top: 1px solid var(--borde-oscuro);
-  padding-top: 15px;
-}
-
-.acciones-post button {
-  flex: 1;
-  background-color: transparent;
-  border: none;
-  color: var(--texto-gris);
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 6px;
+.btn-cargar-mas {
+  background-color: var(--fondo-tarjeta);
+  color: #e0e0e0;
+  border: 1px solid var(--borde-oscuro);
+  padding: 12px 24px;
+  border-radius: 12px;
   font-weight: bold;
+  cursor: pointer;
+  width: 100%;
   transition: 0.3s;
 }
 
-.acciones-post button:hover {
+.btn-cargar-mas:hover {
   background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--violeta-neon);
   color: var(--violeta-neon);
 }

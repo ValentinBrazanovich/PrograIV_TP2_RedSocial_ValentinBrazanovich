@@ -1,0 +1,43 @@
+<div class="tarjeta-publicacion">
+  <div class="cabecera">
+    <div class="info-usuario">
+      <img [src]="publicacion?.creador?.imagenPerfilUrl" alt="Avatar" class="avatar">
+      <div class="texto-cabecera">
+        <h4>{{ publicacion?.creador?.nombreUsuario }}</h4>
+        <span class="fecha">{{ publicacion?.createdAt | date:'short' }}</span> 
+      </div>
+    </div>
+    
+    <button class="btn-eliminar" *ngIf="publicacion?.creador?._id === miUsuarioId" (click)="intentarBorrar()">
+      Eliminar
+    </button>
+  </div>
+
+  <div class="cuerpo">
+    <h3 class="titulo">{{ publicacion?.titulo }}</h3>
+    <p class="descripcion">{{ publicacion?.descripcion }}</p>
+    
+    <div class="contenedor-imagen" *ngIf="publicacion?.imagenUrl">
+      <img [src]="publicacion?.imagenUrl" alt="Imagen adjunta" class="imagen-post">
+    </div>
+  </div>
+
+  <div class="pie">
+    <button class="btn-like" [class.like-activo]="yaLeDiLike()" (click)="toggleLike()">
+      <span class="icono">♥</span> 
+      <span class="contador">{{ publicacion?.cantidadLikes || 0 }}</span>
+    </button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModalEliminar()">
+  <div class="modal-contenido">
+    <h3>¿Eliminar publicación?</h3>
+    <p>Esta acción no se puede deshacer y el posteo se perderá para siempre.</p>
+    
+    <div class="modal-botones">
+      <button class="btn-cancelar" (click)="cancelarBorrado()">Cancelar</button>
+      <button class="btn-confirmar" (click)="confirmarBorrado()">Sí, eliminar</button>
+    </div>
+  </div>
+</div>

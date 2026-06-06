@@ -1,0 +1,33 @@
+<div class="caja-crear-post">
+  <form [formGroup]="crearForm" (ngSubmit)="publicar()">
+    
+    <input 
+      type="text" 
+      formControlName="titulo" 
+      maxlength="100"
+      placeholder="Título de tu publicación..." 
+      class="input-titulo">
+      
+    <textarea 
+      formControlName="descripcion" 
+      maxlength="500"
+      placeholder="¿Qué estás pensando, {{ usuarioActual?.nombreUsuario || 'usuario' }}?">
+    </textarea>
+    
+    <div class="acciones-crear">
+      <label class="btn-subir-img">
+        <span class="icono-camara">📷</span> Adjuntar Imagen
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
+      </label>
+      
+      <span class="nombre-archivo" *ngIf="archivoSeleccionado">
+        {{ archivoSeleccionado.name }}
+      </span>
+      
+      <button type="submit" class="btn-publicar" [disabled]="crearForm.invalid || cargando">
+        {{ cargando ? 'Enviando...' : 'Publicar' }}
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,92 @@
+.caja-crear-post {
+  background-color: var(--fondo-tarjeta, #1e1e24);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--borde-oscuro, #333);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-titulo, textarea {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--borde-oscuro, #333);
+  color: #e0e0e0;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.input-titulo:focus, textarea:focus {
+  outline: none;
+  border-color: var(--violeta-neon, #8a2be2);
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
+}
+
+textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+.acciones-crear {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-subir-img {
+  cursor: pointer;
+  color: var(--texto-gris, #888);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.btn-subir-img:hover {
+  color: var(--violeta-neon, #8a2be2);
+}
+
+.nombre-archivo {
+  font-size: 0.8rem;
+  color: var(--violeta-neon, #8a2be2);
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 10px;
+}
+
+.btn-publicar {
+  background-color: var(--violeta-neon, #8a2be2);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-publicar:hover:not(:disabled) {
+  background-color: #9d4edd;
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
+}
+
+.btn-publicar:disabled {
+  background-color: #444;
+  color: #888;
+  cursor: not-allowed;
+}

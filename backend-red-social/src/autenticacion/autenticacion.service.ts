@@ -4,6 +4,7 @@ import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { v2 as cloudinary } from 'cloudinary';
+import { ConflictException } from '@nestjs/common';
 import * as streamifier from 'streamifier';
 import * as bcrypt from 'bcrypt';
 
@@ -49,7 +50,11 @@ export class AutenticacionService {
     );
     
     if (usuarioExistente) {
-      throw new BadRequestException('El correo o el nombre de usuario ya están en uso.');
+      if (usuarioExistente.correo === datos.correo) {
+        throw new ConflictException('El correo ingresado ya está en uso.');
+      } else {
+        throw new ConflictException('Ese nombre de usuario ya está tomado. ¡Elegí otro!');
+      }
     }
 
     // encripta la contraseña con bcrypt

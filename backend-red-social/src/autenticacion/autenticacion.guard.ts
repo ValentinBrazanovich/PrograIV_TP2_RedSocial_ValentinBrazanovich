@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
+
 
 @Injectable()
 export class AutenticacionGuard implements CanActivate {
@@ -8,7 +8,7 @@ export class AutenticacionGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const peticion = context.switchToHttp().getRequest();
-    const token = this.extraerToken(peticion);
+    const token = peticion.cookies['token'];
     
     if (!token) {
       throw new UnauthorizedException('No estás logueado.');
@@ -16,9 +16,7 @@ export class AutenticacionGuard implements CanActivate {
     
     try {
       // verifica el token usando la misma clave secreta del .env
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: process.env.JWT_SECRET
-      });
+      const payload = await this.jwtService.verifyAsync(token);
       // inyecta los datos del usuario en la petición para que el controlador los pueda usar
       peticion['user'] = payload;
     } catch {
@@ -26,9 +24,5 @@ export class AutenticacionGuard implements CanActivate {
     }
     return true;
   }
-
-  private extraerToken(peticion: Request): string | undefined {
-    const [tipo, token] = peticion.headers.authorization?.split(' ') ?? [];
-    return tipo === 'Bearer' ? token : undefined;
-  }
+  
 }

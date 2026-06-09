@@ -15,7 +15,19 @@
 
   <div class="cuerpo">
     <h3 class="titulo">{{ publicacion?.titulo }}</h3>
-    <p class="descripcion">{{ publicacion?.descripcion }}</p>
+    <div class="contenido-texto">
+      <p class="descripcion">
+        {{ textoExpandido() ? publicacion?.descripcion : (publicacion?.descripcion | slice:0:200) }}
+        <span *ngIf="!textoExpandido() && publicacion?.descripcion?.length > 200">...</span>
+      </p>
+      
+      <button 
+        *ngIf="publicacion?.descripcion?.length > 200" 
+        class="btn-mostrar-mas" 
+        (click)="toggleTexto()">
+        {{ textoExpandido() ? 'Mostrar menos' : 'Mostrar más' }}
+      </button>
+    </div>
     
     <div class="contenedor-imagen" *ngIf="publicacion?.imagenUrl">
       <img [src]="publicacion?.imagenUrl" alt="Imagen adjunta" class="imagen-post">

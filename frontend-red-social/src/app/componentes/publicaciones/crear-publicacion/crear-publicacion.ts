@@ -22,7 +22,7 @@ export class CrearPublicacion implements OnInit {
   constructor(private fb: FormBuilder, private publicacionesService: PublicacionesService) {
     this.crearForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(100)]],
-      descripcion: ['', [Validators.required, Validators.maxLength(500)]]
+      descripcion: ['', [Validators.required, Validators.maxLength(1000)]]
     });
   }
 

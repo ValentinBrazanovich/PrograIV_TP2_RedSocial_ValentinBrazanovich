@@ -65,3 +65,29 @@ input[type="file"]:hover {
         gap: 0;
     }
 }
+
+/* --- ALERTA DE ERROR --- */
+.mensaje-error {
+  background-color: rgba(255, 68, 68, 0.1);
+  color: #ff4444;
+  border: 1px solid rgba(255, 68, 68, 0.5);
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  animation: aparecerError 0.3s ease-out;
+}
+
+/* animación para que el cartel no aparezca de golpe */
+@keyframes aparecerError {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

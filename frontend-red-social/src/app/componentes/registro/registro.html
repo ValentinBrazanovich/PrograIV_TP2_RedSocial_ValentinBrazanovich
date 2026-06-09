@@ -33,8 +33,16 @@
 
       <div class="grupo-campo">
         <label for="fechaNacimiento">Fecha de Nacimiento</label>
-        <input type="date" id="fechaNacimiento" formControlName="fechaNacimiento">
-        <span class="error" *ngIf="formRegistro.get('fechaNacimiento')?.touched && formRegistro.get('fechaNacimiento')?.invalid">Requerido</span>
+        <input type="date" id="fechaNacimiento" formControlName="fechaNacimiento" [max]="fechaMaxima" [min]="fechaMinima">
+        <span class="error" *ngIf="formRegistro.get('fechaNacimiento')?.touched && formRegistro.get('fechaNacimiento')?.hasError('required')">
+          Requerido
+        </span>
+        <span class="error" *ngIf="formRegistro.get('fechaNacimiento')?.touched && formRegistro.get('fechaNacimiento')?.hasError('fechaFutura')">
+          No podés nacer en el futuro
+        </span>
+        <span class="error" *ngIf="formRegistro.get('fechaNacimiento')?.touched && formRegistro.get('fechaNacimiento')?.hasError('fechaMuyAntigua')">
+          La fecha ingresada no es válida
+        </span>
       </div>
 
       <div class="fila-campos">
@@ -67,6 +75,10 @@
         <span class="error" *ngIf="formRegistro.get('imagenPerfil')?.touched && formRegistro.get('imagenPerfil')?.invalid">
           Debés subir una imagen.
         </span>
+      </div>
+
+      <div *ngIf="mensajeError() !== ''" class="mensaje-error">
+        ⚠️ {{ mensajeError() }}
       </div>
 
       <button type="submit" [disabled]="formRegistro.invalid || cargando()" class="btn-primario">

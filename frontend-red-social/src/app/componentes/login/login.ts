@@ -26,6 +26,12 @@ export class Login implements OnInit {
       correoOUsuario: ['', [Validators.required]],
       contrasena: ['', [Validators.required]],
     });
+
+    this.loginForm.valueChanges.subscribe(() => {
+      if (this.mensajeError() !== '') {
+        this.mensajeError.set('');
+      }
+    });
   }
 
   enviar(): void {
@@ -39,7 +45,6 @@ export class Login implements OnInit {
 
     this.Auth.login(this.loginForm.value).subscribe({
       next: (respuesta) => {
-        localStorage.setItem('token', respuesta.token);
         localStorage.setItem('usuario', JSON.stringify(respuesta.usuario));
         this.router.navigate(['/publicaciones']);
       },

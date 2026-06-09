@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -12,17 +12,9 @@ export class PublicacionesService {
 
   constructor(private http: HttpClient) {}
 
-  // arma los headers con el token automáticamente
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   // crear publicación (puede llevar archivo o no, por eso se usa FormData)
   crear(datos: FormData): Observable<any> {
-    return this.http.post(this.URL_API, datos, { headers: this.getHeaders() });
+    return this.http.post(this.URL_API, datos, { withCredentials: true });
   }
 
   // listar publicaciones con paginación y orden
@@ -36,31 +28,26 @@ export class PublicacionesService {
       params = params.set('usuarioId', usuarioId);
     }
 
-    return this.http.get(this.URL_API, { headers: this.getHeaders(), params });
+    return this.http.get(this.URL_API, { params, withCredentials: true });
   }
 
   // eliminar publicación
   darBaja(idPublicacion: string): Observable<any> {
-    return this.http.delete(`${this.URL_API}/${idPublicacion}`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.URL_API}/${idPublicacion}`, { withCredentials: true });
   }
 
   // dar Me Gusta
   darMeGusta(idPublicacion: string): Observable<any> {
-    return this.http.post(`${this.URL_API}/${idPublicacion}/like`, {}, { headers: this.getHeaders() });
+    return this.http.post(`${this.URL_API}/${idPublicacion}/like`, {}, { withCredentials: true });
   }
 
   // quitar Me Gusta
   quitarMeGusta(idPublicacion: string): Observable<any> {
-    return this.http.delete(`${this.URL_API}/${idPublicacion}/like`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.URL_API}/${idPublicacion}/like`, { withCredentials: true });
   }
 
   // obtener los posteos de un usuario específico
-  obtenerMisPublicaciones(idUsuario: string) {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    
-    return this.http.get<any[]>(`${this.URL_API}/usuario/${idUsuario}`, {headers});
+  obtenerMisPublicaciones(idUsuario: string) { 
+    return this.http.get<any[]>(`${this.URL_API}/usuario/${idUsuario}`, { withCredentials: true });
   }
 }

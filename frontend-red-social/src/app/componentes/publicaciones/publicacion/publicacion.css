@@ -81,9 +81,30 @@
 }
 
 .descripcion {
+  /* obliga a acotrar palabras largas */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
   font-size: 0.95rem;
   line-height: 1.5;
   color: #cccccc;
+}
+
+.btn-mostrar-mas {
+  background: none;
+  border: none;
+  color: var(--violeta-neon, #8a2be2);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 0 0 0;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btn-mostrar-mas:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 5px rgba(138, 43, 226, 0.4);
 }
 
 .contenedor-imagen {

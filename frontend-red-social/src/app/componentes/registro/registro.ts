@@ -14,9 +14,11 @@ import { Auth } from '../../servicios/auth';
 
 export class Registro implements OnInit {
   formRegistro!: FormGroup;
-  // aca se guarda el archivo físico seleccionado para subirlo luego al backend
   archivoSeleccionado: File | null = null; 
   cargando = signal<boolean>(false);
+  mensajeError = signal<string>('');
+  fechaMaxima: string = '';
+  fechaMinima: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +27,13 @@ export class Registro implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    this.fechaMaxima = `${anio}-${mes}-${dia}`;
+    this.fechaMinima = `${anio - 120}-${mes}-${dia}`;
+
     this.formRegistro = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(30)]],
       apellido: ['', [Validators.required, Validators.maxLength(30)]],
@@ -36,10 +45,40 @@ export class Registro implements OnInit {
         Validators.maxLength(100)
       ]],
       repetirContrasena: ['', [Validators.required, Validators.maxLength(100)]],
-      fechaNacimiento: ['', [Validators.required]],
+      fechaNacimiento: ['', [Validators.required, this.validarRangoFecha]],
       descripcionBreve: ['', [Validators.maxLength(150)]],
       imagenPerfil: ['', [Validators.required]] 
     }, { validators: this.passwordsCoinciden }); // se agrega el validador a todo el grupo
+
+    this.formRegistro.valueChanges.subscribe(() => {
+      if (this.mensajeError() !== '') {
+        this.mensajeError.set('');
+      }
+    });
+  }
+
+  validarRangoFecha(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) return null;
+
+    const fechaSeleccionada = new Date(control.value);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0); // limpia las horas para comparar solo días
+
+    const limitePasado = new Date();
+    limitePasado.setFullYear(limitePasado.getFullYear() - 120);
+    limitePasado.setHours(0, 0, 0, 0);
+
+    // si la fecha elegida es mayor a hoy tira error
+    if (fechaSeleccionada > hoy) {
+      return { fechaFutura: true };
+    }
+
+     // si la fecha elegida es menor a hace 120 años tira error
+    if (fechaSeleccionada < limitePasado) {
+      return { fechaMuyAntigua: true };
+    }
+
+    return null;
   }
 
   // validador personalizado para verificar que coincidan
@@ -69,6 +108,8 @@ export class Registro implements OnInit {
       return;
     }
 
+    this.mensajeError.set(''); // limpia cualquier mensaje de error previo
+
     this.cargando.set(true); // bloquea el botón y muestra el mensaje de "Cargando..." mientras se procesa el registro
 
     const formData = new FormData();
@@ -92,11 +133,16 @@ export class Registro implements OnInit {
       next: (respuesta) => {
         console.log('Registro exitoso: ', respuesta);
         this.router.navigate(['/login']);
-      }, error: (error) => {
-        console.error('Error en el registro: ', error);
+      }, error: (err) => {
+        console.error('Error en el registro: ', err);
+        if(err.error && err.error.message) {
+          this.mensajeError.set(err.error.message);
+        } else {
+          this.mensajeError.set('Ocurrió un error inesperado. Por favor, intentá de nuevo.');
+        }
         this.cargando.set(false); // desbloquea el botón para que el usuario pueda intentar de nuevo
       }
     });
-
   }
+
 }

@@ -17,6 +17,7 @@ export class Publicacion implements OnInit {
   mostrarModalEliminar = signal<boolean>(false);
   miUsuarioId: string = '';
   yaLeDiLike = signal<boolean>(false);
+  textoExpandido = signal<boolean>(false);
 
   constructor(private publicacionesService: PublicacionesService) {}
 
@@ -35,6 +36,10 @@ export class Publicacion implements OnInit {
     this.yaLeDiLike.set(this.publicacion.meGustas.includes(this.miUsuarioId));
   }
 
+  toggleTexto() {
+    this.textoExpandido.update(valor => !valor);
+  }
+  
   toggleLike(): void {
     if (this.yaLeDiLike()) { // si ya le di like, quito el like
       this.publicacionesService.quitarMeGusta(this.publicacion._id).subscribe({

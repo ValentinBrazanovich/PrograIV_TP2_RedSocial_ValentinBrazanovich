@@ -1,9 +1,10 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Res, HttpCode, HttpStatus, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { AutenticacionService } from './autenticacion.service';
 import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
+import type { Response } from 'express';
 
 @Controller('autenticacion')
 export class AutenticacionController {
@@ -49,8 +50,17 @@ export class AutenticacionController {
 
   @Post('login') // POST http://localhost:3000/autenticacion/login
   @HttpCode(HttpStatus.OK) // devuelve status 200 si tiene éxito
-  async login(@Body() body: LoginDto) {
+  async login(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response){
     const resultado = await this.autenticacionService.login(body);
-    return resultado;
+    const { token, usuario } = resultado;
+    res.cookie('token', token, {
+      httpOnly: true, // protege el token de ataques XSS
+      secure: false,  // permite usar la cookie en localhost (HTTP normal)
+      sameSite: 'lax',// permite que localhost:4200 y localhost:3000 compartan la cookie
+      maxAge: 1000 * 60 * 60 * 24 // 1 día
+    }); // PARA EL ULTIMO SPRINT ESTO DEBERÍA SER TRUE Y SAME SITE DEBERÍA SER 'none' PARA
+    //  PERMITIR EL USO CON HTTPS Y DOMINIOS DISTINTOS
+
+    return {mensaje: 'Login exitoso', usuario: usuario};
   }
 }

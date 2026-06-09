@@ -53,13 +53,13 @@ export class AutenticacionController {
   async login(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response){
     const resultado = await this.autenticacionService.login(body);
     const { token, usuario } = resultado;
+    const esProduccion = process.env.NODE_ENV === 'vercel';
     res.cookie('token', token, {
       httpOnly: true, // protege el token de ataques XSS
-      secure: false,  // permite usar la cookie en localhost (HTTP normal)
-      sameSite: 'lax',// permite que localhost:4200 y localhost:3000 compartan la cookie
+      secure: esProduccion,  // true en Vercel, false en Localhost
+      sameSite: esProduccion ? 'none' : 'lax', // none en Vercel, lax en Localhost 
       maxAge: 1000 * 60 * 60 * 24 // 1 día
-    }); // PARA EL ULTIMO SPRINT ESTO DEBERÍA SER TRUE Y SAME SITE DEBERÍA SER 'none' PARA
-    //  PERMITIR EL USO CON HTTPS Y DOMINIOS DISTINTOS
+    });
 
     return {mensaje: 'Login exitoso', usuario: usuario};
   }

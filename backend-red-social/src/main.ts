@@ -10,6 +10,9 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', // permite estos métodos HTTP
     credentials: true, // permite enviar cookies y credenciales en las solicitudes
   });
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.set('trusty proxy', 1)
+
   app.use(cookieParser());
 
   await app.listen(process.env.PORT || 3000);

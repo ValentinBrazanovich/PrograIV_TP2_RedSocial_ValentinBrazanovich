@@ -33,21 +33,49 @@ export class PublicacionesService {
 
   // eliminar publicación
   darBaja(idPublicacion: string): Observable<any> {
-    return this.http.delete(`${this.URL_API}/${idPublicacion}`, { withCredentials: true });
+    return this.http.delete(`${this.URL_API}/${idPublicacion}`, 
+      { withCredentials: true });
   }
 
   // dar Me Gusta
   darMeGusta(idPublicacion: string): Observable<any> {
-    return this.http.post(`${this.URL_API}/${idPublicacion}/like`, {}, { withCredentials: true });
+    return this.http.post(`${this.URL_API}/${idPublicacion}/like`, {}, 
+      { withCredentials: true });
   }
 
   // quitar Me Gusta
   quitarMeGusta(idPublicacion: string): Observable<any> {
-    return this.http.delete(`${this.URL_API}/${idPublicacion}/like`, { withCredentials: true });
+    return this.http.delete(`${this.URL_API}/${idPublicacion}/like`, 
+      { withCredentials: true });
   }
 
   // obtener los posteos de un usuario específico
   obtenerMisPublicaciones(idUsuario: string) { 
-    return this.http.get<any[]>(`${this.URL_API}/usuario/${idUsuario}`, { withCredentials: true });
+    return this.http.get<any[]>(`${this.URL_API}/usuario/${idUsuario}`,
+      { withCredentials: true });
+  }
+
+  // trae los comentarios paginados de un posteo específico
+  obtenerComentarios(idPublicacion: string, pagina: number = 1): Observable<any> {
+    return this.http.get(`${this.URL_API}/${idPublicacion}/comentarios?pagina=${pagina}`,
+      { withCredentials: true });
+  }
+
+  // agrega un nuevo comentario
+  agregarComentario(publicacionId: string, mensaje: string): Observable<any> {
+    return this.http.post(`${this.URL_API}/comentarios`, { publicacionId, mensaje },
+      { withCredentials: true });
+  }
+
+  // edita un comentario existente
+  editarComentario(comentarioId: string, mensaje: string): Observable<any> {
+    return this.http.put(`${this.URL_API}/comentarios/${comentarioId}`, { mensaje },
+      { withCredentials: true });
+  }
+
+  // obtener una publicación específica por ID
+  obtenerPorId(idPublicacion: string): Observable<any> {
+    return this.http.get(`${this.URL_API}/${idPublicacion}`,
+      { withCredentials: true });
   }
 }

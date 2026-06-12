@@ -1,14 +1,17 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Publicacion } from './esquemas/publicacion.schema';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto';
 import { v2 as cloudinary } from 'cloudinary';
+import { Comentario } from './esquemas/comentario.schema';
+import { CrearComentarioDto, ModificarComentarioDto } from './dto/comentarios.dto';
 import * as streamifier from 'streamifier';
 
 @Injectable()
 export class PublicacionesService {
-  constructor(@InjectModel(Publicacion.name) private publicacionModel: Model<Publicacion>) {
+  constructor(@InjectModel(Publicacion.name) private publicacionModel: Model<Publicacion>, 
+              @InjectModel(Comentario.name) private comentarioModel: Model<Comentario>) {
     cloudinary.config({
       cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
       api_key: process.env.CLOUDINARY_API_KEY,
@@ -138,5 +141,59 @@ export class PublicacionesService {
     return posteos;
   }
 
-  
+  async agregarComentario(usuarioId: string, datos: CrearComentarioDto){
+    const nuevoComentario = new this.comentarioModel({
+      usuario: usuarioId,
+      publicacion: datos.publicacionId,
+      mensaje: datos.mensaje
+    });
+
+    return await nuevoComentario.save();
+  }
+
+  async editarComentario(comentarioId: string, usuarioId: string, datos: ModificarComentarioDto){
+    const comentario = await this.comentarioModel.findById(comentarioId);
+
+    if (!comentario){
+      throw new NotFoundException('El comentario no existe.');
+    }
+
+    if (comentario.usuario.toString() !== usuarioId){ // solo el usuario puede editar su comentario
+      throw new UnauthorizedException('No tenés permiso de editar este comentario.');
+    }
+
+    comentario.mensaje = datos.mensaje;
+    comentario.modificado = true;
+
+    return await comentario.save();
+  }
+
+  async obtenerComentariosPorPublicacion(publicacionId: string, pagina: number = 1, limite: number = 5){
+    const skip = (pagina - 1) * limite // lógica de paginación
+
+    const comentarios = await this.comentarioModel
+      .find({ publicacion: publicacionId})
+      .sort({ createdAt: -1 }) // ordena de forma descendente, de mas reciente a mas viejo
+      .skip(skip)
+      .limit(limite)
+      // datos del usuario para el front
+      .populate('usuario', 'nombreUsuario nombre apellido imagenPerfilUrl');
+
+    const total = await this.comentarioModel.countDocuments({ publicacion: publicacionId });
+
+    return { comentarios, total, paginas:Math.ceil(total / limite), paginaActual: pagina};
+  }
+
+  // traer una sola publicación por ID
+  async obtenerPorId(idPublicacion: string) {
+    const publicacion = await this.publicacionModel
+      .findById(idPublicacion)
+      .populate('creador', 'nombreUsuario imagenPerfilUrl');
+      
+    if (!publicacion || publicacion.eliminada) {
+      throw new NotFoundException('La publicación no existe o fue eliminada.');
+    }
+    return publicacion;
+  }
+
 }

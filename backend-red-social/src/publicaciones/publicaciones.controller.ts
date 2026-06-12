@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, Delete, Query, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { PublicacionesService } from './publicaciones.service';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto';
-import { AutenticacionGuard } from '../autenticacion/autenticacion.guard'; 
+import { AutenticacionGuard } from '../autenticacion/autenticacion.guard';
+import { CrearComentarioDto, ModificarComentarioDto } from './dto/comentarios.dto';
 
 @Controller('publicaciones')
 @UseGuards(AutenticacionGuard) // Protege TODAS las rutas de este controlador
@@ -19,7 +20,8 @@ export class PublicacionesController {
     @Req() peticion: any
   ) {
     // el guard inyecta los datos del usuario en peticion.user
-    const usuarioId = peticion.user.id; 
+    const usuarioId = peticion.user.id;
+
     return this.publicacionesService.crear(body, usuarioId, archivo);
   }
 
@@ -41,6 +43,7 @@ export class PublicacionesController {
   // ruta para los posteos personales
   @Get('usuario/:id')
   async obtenerMisPosteos(@Param('id') idUsuario: string) {
+
     return await this.publicacionesService.listarMisPublicaciones(idUsuario);
   }
 
@@ -48,6 +51,7 @@ export class PublicacionesController {
   @Delete(':id')
   async darBaja(@Param('id') idPublicacion: string, @Req() peticion: any) {
     const usuarioId = peticion.user.id;
+
     return this.publicacionesService.darBaja(idPublicacion, usuarioId);
   }
 
@@ -55,6 +59,7 @@ export class PublicacionesController {
   @Post(':id/like')
   async darMeGusta(@Param('id') idPublicacion: string, @Req() peticion: any) {
     const usuarioId = peticion.user.id;
+
     return this.publicacionesService.darMeGusta(idPublicacion, usuarioId);
   }
 
@@ -62,6 +67,45 @@ export class PublicacionesController {
   @Delete(':id/like')
   async quitarMeGusta(@Param('id') idPublicacion: string, @Req() peticion: any) {
     const usuarioId = peticion.user.id;
+
     return this.publicacionesService.quitarMeGusta(idPublicacion, usuarioId);
+  }
+
+  @Post('comentarios') // POST http://localhost:3000/publicaciones/comentarios
+  async crearComentario(@Req() req, @Body() body: CrearComentarioDto) {
+    const usuarioId = req['user'].id; // se agarra el user desde el token
+    const comentario = await this.publicacionesService.agregarComentario(usuarioId, body);
+
+    return { mensaje: 'Comentario agregado con éxito', comentario };
+  }
+
+  @Put('comentarios/:id') // PUT http://localhost:3000/publicaciones/comentarios/12345
+  async editarComentario(
+    @Req() req, 
+    @Param('id') comentarioId: string, 
+    @Body() body: ModificarComentarioDto
+  ) {
+    const usuarioId = req['user'].id;
+    const comentario = await this.publicacionesService.editarComentario(comentarioId, usuarioId, body);
+
+    return { mensaje: 'Comentario editado con éxito', comentario };
+  }
+
+  @Get(':id/comentarios') // GET http://localhost:3000/publicaciones/12345/comentarios?pagina=1
+  async obtenerComentarios(
+    @Param('id') publicacionId: string,
+    @Query('pagina') pagina: string
+  ) {
+    // si no mandan página por defecto es 1, y traemos de a 5 comentarios
+    const numPagina = pagina ? parseInt(pagina, 10) : 1;
+    const limite = 5; 
+    
+    return await this.publicacionesService.obtenerComentariosPorPublicacion(publicacionId, numPagina, limite);
+  }
+
+  // obtiene un posteo específico
+  @Get(':id')
+  async obtenerPorId(@Param('id') id: string) {
+    return this.publicacionesService.obtenerPorId(id);
   }
 }

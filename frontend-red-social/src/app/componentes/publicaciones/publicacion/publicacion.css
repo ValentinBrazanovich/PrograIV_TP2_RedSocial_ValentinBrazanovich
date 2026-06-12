@@ -121,7 +121,8 @@
 
 .pie {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
   padding-top: 12px;
   border-top: 1px solid #333;
 }
@@ -142,10 +143,32 @@
   color: #a461f0;
 }
 
-/* "mágia" del Me Gusta activo con toques neón */
+/* Me Gusta activo con toques neón */
 .btn-like.like-activo {
   color: #b026ff;
   text-shadow: 0 0 10px rgba(176, 38, 255, 0.6);
+}
+
+.btn-comentarios {
+  background: transparent;
+  color: #8a2be2;
+  border: 1px solid #8a2be2;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0.5;
+  justify-content: center;
+}
+
+.btn-comentarios:hover {
+  background-color: rgba(138, 43, 226, 0.15);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+  color: #fff;
 }
 
 .icono {

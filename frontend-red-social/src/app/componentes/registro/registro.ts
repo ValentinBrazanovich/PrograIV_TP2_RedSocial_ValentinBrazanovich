@@ -6,7 +6,6 @@ import { Auth } from '../../servicios/auth';
 
 @Component({
   selector: 'app-registro',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './registro.html',
   styleUrl: './registro.css'

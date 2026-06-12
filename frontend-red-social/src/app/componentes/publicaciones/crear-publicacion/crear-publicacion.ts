@@ -1,11 +1,10 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PublicacionesService } from '../../../servicios/publicaciones';
 
 @Component({
   selector: 'app-crear-publicacion',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './crear-publicacion.html',
   styleUrl: './crear-publicacion.css'
@@ -16,6 +15,7 @@ export class CrearPublicacion implements OnInit {
   
   crearForm: FormGroup;
   archivoSeleccionado: File | null = null;
+  imagenPreview = signal<string | null>(null);
   cargando: boolean = false; // desactiva el botón mientras se sube a la base de datos
   usuarioActual: any = null;
 
@@ -37,7 +37,19 @@ export class CrearPublicacion implements OnInit {
     const file: File = event.target.files[0];
     if (file) {
       this.archivoSeleccionado = file;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagenPreview.set(e.target.result);
+      };
+      reader.readAsDataURL(file);
     }
+  }
+
+  removerImagen(fileInput: HTMLInputElement) {
+    this.archivoSeleccionado = null;
+    this.imagenPreview.set(null);
+    fileInput.value = '';
   }
 
   publicar() {
@@ -59,6 +71,7 @@ export class CrearPublicacion implements OnInit {
         this.postCreado.emit(nuevoPost); // los datos del posteo
         this.crearForm.reset(); // vacia inputs
         this.archivoSeleccionado = null;
+        this.imagenPreview.set(null);
         this.cargando = false;
       },
       error: (err) => {

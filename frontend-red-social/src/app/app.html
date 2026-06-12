@@ -1,1 +1,13 @@
 <router-outlet></router-outlet>
+
+<div class="modal-overlay-global" *ngIf="authService.mostrarModalAviso()">
+  <div class="modal-contenido-global">
+    <h3>⚠️ Tu sesión está por expirar</h3>
+    <p>Por motivos de seguridad, tu sesión se cerrará en <strong>5 minutos</strong>. ¿Deseás continuar conectado?</p>
+    
+    <div class="modal-botones-global">
+      <button class="btn-salir-global" (click)="authService.cerrarSesionForzada()">Salir</button>
+      <button class="btn-extender-global" (click)="authService.extenderSesion()">Permanecer conectado</button>
+    </div>
+  </div>
+</div>

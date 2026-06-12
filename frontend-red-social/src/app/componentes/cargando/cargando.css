@@ -1,0 +1,36 @@
+.pantalla-carga {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #0a0a0f; 
+  color: #e0e0e0;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(138, 43, 226, 0.1);
+  border-top-color: var(--violeta-neon, #8a2be2); 
+  border-radius: 50%;
+  animation: girar 1s linear infinite;
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.4); /* resplandor */
+  margin-bottom: 20px;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+h2 {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  color: #aaa;
+  animation: pulso 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulso {
+  from { opacity: 0.6; }
+  to { opacity: 1; text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
+}

@@ -1,10 +1,11 @@
-import { Controller, Post, Body, Res, HttpCode, HttpStatus, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Res, HttpCode, HttpStatus, UseInterceptors, UploadedFile, Req, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { AutenticacionService } from './autenticacion.service';
 import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
 import type { Response } from 'express';
+import { AutenticacionGuard } from './autenticacion.guard';
 
 @Controller('autenticacion')
 export class AutenticacionController {
@@ -59,9 +60,40 @@ export class AutenticacionController {
       httpOnly: true, 
       secure: esProduccion,             // true en Vercel, false en Localhost
       sameSite: esProduccion ? 'none' : 'lax', // 'none' en Vercel, 'lax' en Localhost
-      maxAge: 1000 * 60 * 60 * 24 
+      maxAge: 1000 * 60 * 15 
     });
 
     return {mensaje: 'Login exitoso', usuario: usuario};
+  }
+
+  @Post('autorizar') // POST http://localhost:3000/autenticacion/autorizar
+  @UseGuards(AutenticacionGuard) // el Guard hace la validación
+  @HttpCode(HttpStatus.OK)
+  autorizar(@Req() req) {
+    return { 
+      mensaje: 'Token válido', 
+      usuario: req['user'] 
+    };
+  }
+
+  @Post('refrescar') // POST http://localhost:3000/autenticacion/refrescar
+  @UseGuards(AutenticacionGuard)
+  @HttpCode(HttpStatus.OK)
+  async refrescar(@Req() req, @Res({ passthrough: true }) res: Response) {
+    // agarra al usuario de la petición actual
+    const usuario = req['user'];
+    // el servicio fabrica un nuevo token de 15 minutos
+    const nuevoToken = await this.autenticacionService.generarNuevoToken(usuario);
+    const esProduccion = process.env.NODE_ENV === 'production';
+
+    // reemplaza el cookie viejo para setear de nuevo en 15 mins
+    res.cookie('token', nuevoToken, {
+      httpOnly: true, 
+      secure: esProduccion,
+      sameSite: esProduccion ? 'none' : 'lax',
+      maxAge: 1000 * 60 * 15
+    });
+
+    return { mensaje: 'Sesión extendida por 15 minutos' };
   }
 }

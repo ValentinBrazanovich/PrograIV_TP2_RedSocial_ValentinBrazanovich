@@ -90,3 +90,43 @@ textarea {
   color: #888;
   cursor: not-allowed;
 }
+
+.contenedor-preview {
+  position: relative;
+  display: inline-block;
+  margin: 12px 0;
+  max-width: 100%;
+}
+
+.img-preview {
+  max-height: 180px;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid #8a2be2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.btn-cancelar-adjunto {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4a4a;
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px rgba(255, 74, 74, 0.6);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-cancelar-adjunto:hover {
+  transform: scale(1.1);
+  background-color: #ff2a2a;
+  box-shadow: 0 0 12px rgba(255, 74, 74, 0.9);
+}

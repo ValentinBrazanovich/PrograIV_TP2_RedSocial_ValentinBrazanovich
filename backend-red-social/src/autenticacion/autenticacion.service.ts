@@ -78,6 +78,12 @@ export class AutenticacionService {
     return this.usuariosService.crearUsuario(nuevoUsuario);
   }
 
+  async generarNuevoToken(payload: any) {
+    const { iat, exp, ...datosUsuario } = payload; 
+    
+    return await this.jwtService.signAsync(datosUsuario);
+  }
+
   async login(datos: LoginDto){
     const usuario = await this.usuariosService.buscarPorCorreoOUsuario(
       datos.correoOUsuario,

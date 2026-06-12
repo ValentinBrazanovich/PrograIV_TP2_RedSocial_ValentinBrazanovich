@@ -1,5 +1,7 @@
 .contenedor-perfil {
-  max-width: 800px;
+  width: 100%;
+  max-width: 680px;
+  min-width: 500px;
   margin: 0 auto;
   padding: 20px;
   color: #e0e0e0;

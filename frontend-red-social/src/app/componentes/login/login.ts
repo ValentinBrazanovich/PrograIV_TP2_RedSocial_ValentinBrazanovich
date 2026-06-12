@@ -46,6 +46,7 @@ export class Login implements OnInit {
     this.Auth.login(this.loginForm.value).subscribe({
       next: (respuesta) => {
         localStorage.setItem('usuario', JSON.stringify(respuesta.usuario));
+        this.Auth.iniciarTemporizadorSesion();
         this.router.navigate(['/publicaciones']);
       },
       error: (error) => {

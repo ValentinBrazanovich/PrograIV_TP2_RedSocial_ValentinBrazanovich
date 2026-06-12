@@ -39,6 +39,10 @@
       <span class="icono">♥</span> 
       <span class="contador">{{ publicacion?.cantidadLikes || 0 }}</span>
     </button>
+    <button class="btn-comentarios" [routerLink]="['/publicacion', publicacion?._id]">
+      💬 Comentarios
+    </button>
+    <div class="espaciador"></div>
   </div>
 </div>
 

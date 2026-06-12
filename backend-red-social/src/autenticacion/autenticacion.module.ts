@@ -12,7 +12,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '1d' }, // el token expira en 1 día
+        signOptions: { expiresIn: '15m' }, // el token expira en 15 minutos
       }),
     })
   ],

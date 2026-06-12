@@ -1,0 +1,89 @@
+<div class="cargando-pantalla" *ngIf="!publicacion()">
+  <div class="spinner-neon"></div>
+  <p>Cargando...</p>
+</div>
+
+<div class="detalle-container" *ngIf="publicacion()">
+  
+  <button class="btn-volver" routerLink="/publicaciones">
+    ← Volver
+  </button>
+
+  <article class="post-principal">
+    <div class="post-header">
+      <img [src]="publicacion().creador?.imagenPerfilUrl || 'assets/default-avatar.png'" alt="Avatar" class="avatar">
+      <span class="username">@{{ publicacion().creador?.nombreUsuario }}</span>
+    </div>
+    
+    <img *ngIf="publicacion().imagenUrl" [src]="publicacion().imagenUrl" alt="Post" class="post-imagen">
+    
+    <div class="post-body">
+      <h2 class="post-titulo">{{ publicacion().titulo }}</h2>
+      <p class="post-descripcion">{{ publicacion().descripcion }}</p>
+    </div>
+  </article>
+
+  <section class="comentarios-section">
+    <h3>Comentarios</h3>
+
+    <div class="nuevo-comentario-box">
+      <textarea 
+        [ngModel]="nuevoComentario()" 
+        (ngModelChange)="nuevoComentario.set($event)"
+        placeholder="Escribí un comentario..." 
+        rows="3"
+        maxlength="300">
+      </textarea>
+      <button 
+        class="btn-neon" 
+        (click)="enviarComentario()" 
+        [disabled]="nuevoComentario().trim() === ''">
+        Publicar
+      </button>
+    </div>
+
+    <div class="lista-comentarios">
+      <div class="comentario-card" *ngFor="let com of comentarios()">
+        
+        <div class="com-header">
+          <img [src]="com.usuario?.imagenPerfilUrl || 'assets/default-avatar.png'" alt="Avatar" class="com-avatar">
+          <span class="com-username">@{{ com.usuario?.nombreUsuario }}</span>
+          <span class="badge-editado" *ngIf="com.modificado">(Editado)</span>
+        </div>
+
+        <div class="com-body" *ngIf="comentarioEditandoId() !== com._id">
+          <p class="com-mensaje">{{ com.mensaje }}</p>
+          
+          <button 
+            class="btn-editar" 
+            *ngIf="usuarioActual() && (com.usuario?._id === usuarioActual()._id || com.usuario?._id === usuarioActual().id)"
+            (click)="iniciarEdicion(com)">
+            Editar
+          </button>
+        </div>
+
+        <div class="com-edicion" *ngIf="comentarioEditandoId() === com._id">
+          <textarea 
+            [ngModel]="textoEdicion()" 
+            (ngModelChange)="textoEdicion.set($event)"
+            rows="2" 
+            maxlength="300">
+          </textarea>
+          <div class="edicion-acciones">
+            <button class="btn-fantasma" (click)="cancelarEdicion()">Cancelar</button>
+            <button class="btn-guardar" (click)="guardarEdicion()">Guardar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="cargar-mas-container" *ngIf="paginaActual < totalPaginas">
+      <button class="btn-cargar-mas" (click)="cargarMas()">
+        <span *ngIf="!cargandoComentarios()">Ver más comentarios</span>
+        <span *ngIf="cargandoComentarios()">Cargando red...</span>
+      </button>
+    </div>
+
+  </section>
+</div>

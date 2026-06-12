@@ -9,7 +9,6 @@ import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-mi-perfil',
-  standalone: true,
   imports: [CommonModule, Publicacion, FormsModule, RouterModule],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.css'

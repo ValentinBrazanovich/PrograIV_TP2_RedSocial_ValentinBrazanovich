@@ -7,7 +7,6 @@ import { PublicacionesService } from '../../servicios/publicaciones';
 
 @Component({
   selector: 'app-publicaciones',
-  standalone: true,
   imports: [CommonModule, Publicacion, RouterModule, CrearPublicacion],
   templateUrl: './publicaciones.html',
   styleUrl: './publicaciones.css'
@@ -88,4 +87,5 @@ export class Publicaciones implements OnInit {
     // agrega el nuevo post al principio del array para que aparezca primero en el feed
     this.listaPublicaciones.update(posts => [nuevoPost, ...posts]);
   }
+  
 }

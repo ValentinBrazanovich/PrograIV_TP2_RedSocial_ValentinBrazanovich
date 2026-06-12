@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PublicacionesService } from '../../../servicios/publicaciones'; 
+import { PublicacionesService } from '../../../servicios/publicaciones';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-publicacion',
-  standalone: true,
-  imports: [ CommonModule ],
+  imports: [ CommonModule, RouterModule ],
   templateUrl: './publicacion.html',
   styleUrl: './publicacion.css',
 })

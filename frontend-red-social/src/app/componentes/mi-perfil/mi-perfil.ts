@@ -4,15 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { Publicacion } from '../publicaciones/publicacion/publicacion';
 import { PublicacionesService } from '../../servicios/publicaciones';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ClickAfueraDirective } from '../../directivas/click-afuera.directive';
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [CommonModule, Publicacion, FormsModule, RouterModule],
+  imports: [CommonModule, Publicacion, FormsModule, RouterModule, ClickAfueraDirective],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.css'
 })
+
 export class MiPerfil implements OnInit {
   usuarioActual: any = null;
   misPublicaciones = signal<any[]>([]); // posteos del usuario actual
@@ -24,6 +26,7 @@ export class MiPerfil implements OnInit {
     nombreUsuario: '',
     descripcion: ''
   }
+  
   archivoNuevo: File | null = null;
   mensajeError = signal<string>('');
   todosLosPosteos: any[] = [];
@@ -127,10 +130,7 @@ export class MiPerfil implements OnInit {
       formData.append('imagen', this.archivoNuevo);
     }
 
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    this.http.put(`${this.apiUrl}/editar/${miId}`, formData, { headers }).subscribe({
+    this.http.put(`${this.apiUrl}/editar/${miId}`, formData, { withCredentials: true }).subscribe({
       next: (respuesta: any) => {
         // actualiza los datos del usuario en la sesión
         const usuarioActualizado = { ...this.usuarioActual, ...respuesta.usuario };

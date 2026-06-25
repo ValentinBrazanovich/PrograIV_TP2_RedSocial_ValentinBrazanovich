@@ -1,0 +1,116 @@
+<div class="dashboard-contenedor">
+  <div class="cabecera-dashboard">
+  <a routerLink="/mi-perfil" class="btn-volver">
+    ⬅ Volver a Mi Perfil
+  </a>
+</div>
+  <h2 class="titulo-neon">Panel de Control: Usuarios</h2>
+
+  <section class="tarjeta-admin">
+    <h3>Crear Nuevo Usuario</h3>
+    
+    <form [formGroup]="crearForm" (ngSubmit)="crearUsuario()" class="formulario-grilla">
+      <div class="campo">
+        <input type="text" formControlName="nombre" placeholder="Nombre">
+      </div>
+      <div class="campo">
+        <input type="text" formControlName="apellido" placeholder="Apellido">
+      </div>
+      <div class="campo">
+        <input type="email" formControlName="correo" placeholder="Correo electrónico">
+      </div>
+      <div class="campo">
+        <input type="text" formControlName="nombreUsuario" placeholder="Nombre de usuario">
+      </div>
+      <div class="campo">
+        <input type="password" formControlName="contrasena" placeholder="Contraseña (mín 8, 1 mayús, 1 núm)">
+      </div>
+      <div class="campo">
+        <input type="date" formControlName="fechaNacimiento" [max]="fechaMaxima" [min]="fechaMinima">
+      </div>
+      <div class="campo">
+        <label style="display:block; margin-bottom:5px; font-size:0.9rem; color:#aaa;">Foto de Perfil</label>
+        
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="file" (change)="onFileChange($event)" accept="image/*" style="padding: 5px;" #fileInput>
+          
+          <button 
+            type="button" 
+            *ngIf="archivoSeleccionado" 
+            (click)="quitarImagen(fileInput)" 
+            class="btn-quitar-imagen">
+            ❌ Borrar
+          </button>
+        </div>
+      </div>
+
+      <div class="campo-radio">
+        <label>Perfil del usuario:</label>
+        <div class="opciones-radio">
+          <label>
+            <input type="radio" formControlName="perfil" value="usuario"> Usuario Normal
+          </label>
+          <label>
+            <input type="radio" formControlName="perfil" value="administrador"> Administrador
+          </label>
+        </div>
+      </div>
+
+      <div class="campo-boton">
+        <button type="submit" class="btn-neon" [disabled]="crearForm.invalid">
+          Crear Usuario
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="tarjeta-admin">
+    <h3>Lista de Usuarios Registrados</h3>
+    
+    <div class="cargando" *ngIf="cargando()">Cargando base de datos...</div>
+
+    <div class="tabla-contenedor" *ngIf="!cargando()">
+      <table class="tabla-usuarios">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Perfil</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarios()">
+            <td>
+              <div class="celda-usuario">
+                <img [src]="u.imagenPerfilUrl" class="avatar-chico">
+                <span>@{{ u.nombreUsuario }}</span>
+              </div>
+            </td>
+            <td>{{ u.correo }}</td>
+            <td>
+              <span class="badge-perfil" [class.admin]="u.perfil === 'administrador'">
+                {{ u.perfil }}
+              </span>
+            </td>
+            <td>
+              <span class="badge-estado" [class.activo]="u.activo" [class.inactivo]="!u.activo">
+                {{ u.activo ? 'Activo' : 'Deshabilitado' }}
+              </span>
+            </td>
+            <td>
+              <button 
+                class="btn-accion" 
+                [class.btn-peligro]="u.activo" 
+                [class.btn-exito]="!u.activo"
+                (click)="cambiarEstado(u)">
+                {{ u.activo ? 'Dar de Baja' : 'Rehabilitar' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

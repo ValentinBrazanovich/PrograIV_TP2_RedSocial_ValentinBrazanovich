@@ -1,0 +1,50 @@
+<div class="contenedor-estadisticas">
+  <h2>📊 Estadísticas 📊</h2>
+  <a routerLink="/mi-perfil" class="btn-volver">
+    ⬅ Volver a Mi Perfil
+  </a>
+  
+  <div class="filtros-fecha">
+    <div class="contenedor-inputs">
+      <div class="grupo-input">
+        <label>Fecha Inicio</label>
+        <input type="date" [(ngModel)]="fechaInicio">
+      </div>
+      
+      <div class="grupo-input">
+        <label>Fecha Fin</label>
+        <input type="date" [(ngModel)]="fechaFin">
+      </div>
+    </div>
+    
+    <button class="btn-neon" (click)="cargarDatos()">Aplicar Filtro</button>
+  </div>
+  
+  <div class="tarjetas-graficos">
+    
+    <div class="tarjeta-grafico">
+      <h3>Publicaciones por Usuario</h3>
+      <canvas baseChart *ngIf="datosBarras"
+        [data]="datosBarras"
+        [type]="'bar'"
+        [options]="opcionesBarras"> </canvas>
+    </div>
+
+    <div class="tarjeta-grafico">
+      <h3>Evolución de Comentarios</h3>
+      <canvas baseChart *ngIf="datosLineas"
+        [data]="datosLineas"
+        [type]="'line'"
+        [options]="opcionesLineas"> </canvas>
+    </div>
+
+    <div class="tarjeta-grafico">
+      <h3>Top Posts más Comentados</h3>
+      <canvas baseChart *ngIf="datosTorta"
+        [data]="datosTorta"
+        [type]="'doughnut'"
+        [options]="opcionesDona"> </canvas>
+    </div>
+
+  </div>
+</div>

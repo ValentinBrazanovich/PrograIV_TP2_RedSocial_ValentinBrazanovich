@@ -1,8 +1,24 @@
+.envoltura-pagina {
+  min-height: 100vh;
+  width: 100%;
+  
+  background-image: linear-gradient(rgba(30, 30, 36, 0.55), rgba(20, 20, 25, 0.4)), 
+                    url('../../../assets/imagenes/fondo-publicaciones.jpg'); 
+                    /* ruta vercel /assets/imagenes/fondo-publicaciones.jpg */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+}
+
 .detalle-container {
   width: 90%;
   max-width: 700px;
   margin: 0 auto;
-  padding: 20px;
   color: #e0e0e0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -18,17 +34,26 @@
 }
 
 .btn-volver {
-  background: transparent;
-  color: #aaa;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  color: #d1a3ff;
+  text-decoration: none;
+  font-weight: 600;
   font-size: 1rem;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: color 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .btn-volver:hover {
-  color: #8a2be2;
+  color: #ffffff;
+  background-color: rgba(138, 43, 226, 0.1);
+  border: 1px solid #8a2be2;
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+  transform: translateX(-5px);
 }
 
 .post-principal {

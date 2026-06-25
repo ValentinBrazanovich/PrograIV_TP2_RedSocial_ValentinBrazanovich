@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PublicacionesModule } from './publicaciones/publicaciones.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
+import { EstadisticasModule } from './estadisticas/estadisticas.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
@@ -21,6 +22,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     PublicacionesModule,
     AutenticacionModule,
     UsuariosModule,
+    EstadisticasModule
   ],
   controllers: [],
   providers: [],

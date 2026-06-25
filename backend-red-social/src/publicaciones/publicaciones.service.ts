@@ -73,11 +73,11 @@ export class PublicacionesService {
   }
 
   // baja lógica
-  async darBaja(idPublicacion: string, idUsuario: string) {
+  async darBaja(idPublicacion: string, usuarioLogueado: any) {
     const publicacion = await this.publicacionModel.findById(idPublicacion);
     if (!publicacion) throw new NotFoundException('Publicación no encontrada');
     
-    if (publicacion.creador.toString() !== idUsuario) {
+    if (publicacion.creador.toString() !== usuarioLogueado.id && usuarioLogueado.perfil !== 'administrador') {
        throw new BadRequestException('No se puede borrar una publicación ajena.');
     }
 

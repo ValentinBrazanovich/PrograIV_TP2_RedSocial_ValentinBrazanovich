@@ -1,0 +1,168 @@
+.contenedor-estadisticas {
+  padding: 40px 20px;
+  min-height: 100vh;
+  background-color: #121215;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.contenedor-estadisticas h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #a14cff;
+  text-shadow: 0 0 15px rgba(161, 76, 255, 0.4);
+}
+
+/* grilla flexible para alinear las tarjetas */
+.tarjetas-graficos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* diseño de la tarjeta individual */
+.tarjeta-grafico {
+  background-color: #1e1e24;
+  border-radius: 16px;
+  padding: 25px;
+  width: 100%;
+  max-width: 400px;
+  
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(138, 43, 226, 0.2);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.tarjeta-grafico:hover {
+  transform: translateY(-1px);
+  border-color: rgba(0, 255, 204, 0.5);
+}
+
+/* título de cada gráfico */
+.tarjeta-grafico h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: #00ffcc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-volver {
+  display: inline-flex;
+  align-items: center;
+  color: #d1a3ff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  margin: 10px;
+}
+
+.btn-volver:hover {
+  color: #ffffff;
+  background-color: rgba(138, 43, 226, 0.1);
+  border: 1px solid #8a2be2;
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+  transform: translateX(-5px);
+}
+
+.tarjeta-grafico canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.filtros-fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+.contenedor-inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 550px; /* ancho máximo ideal para que no se estiren al infinito */
+}
+
+.grupo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1; /* hace que ambos inputs tengan exactamente el mismo tamaño */
+}
+
+.grupo-input label {
+  font-size: 0.85rem;
+  color: #d1a3ff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.grupo-input input[type="date"] {
+  background-color: #1e1e24;
+  border: 1px solid rgba(161, 76, 255, 0.4);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 12px 14px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.grupo-input input[type="date"]:focus {
+  border-color: #00ffcc;
+  box-shadow: 0 0 12px rgba(0, 255, 204, 0.3);
+}
+
+.btn-neon {
+  background-color: transparent;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  padding: 12px 35px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+}
+
+
+.btn-neon:hover {
+  background-color: #00ffcc;
+  color: #121215;
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.6);
+  transform: translateY(-2px);
+}
+
+/* adaptación para celulares (si la pantalla es muy chica, se apilan para no romperse) */
+@media (max-width: 500px) {
+  .contenedor-inputs {
+    flex-direction: column;
+    gap: 15px;
+  }
+}

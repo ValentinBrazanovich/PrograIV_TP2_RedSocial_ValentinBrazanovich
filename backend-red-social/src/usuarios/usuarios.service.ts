@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Usuario } from './esquemas/usuario.schema';
 import { v2 as cloudinary } from 'cloudinary';
+import * as bcrypt from 'bcrypt' 
 
 @Injectable()
 export class UsuariosService {
@@ -87,5 +88,65 @@ export class UsuariosService {
 
     // guarda los cambios finales y devuelve el usuario actualizado
     return await usuario.save();
+  }
+
+  // LISTAR TODOS LOS USUARIOS (para el panel de admin)
+  async listarTodos() {
+    // .select('-contrasena') asegura que las contraseñas no viajen al frontend
+    return await this.usuarioModel.find().select('-contrasena').exec();
+  }
+
+  // CREAR USUARIO DESDE EL PANEL
+  async crearDesdeAdmin(datos: any, archivo?: Express.Multer.File) {
+    // se hashea la contraseña, igual que en el registro normal
+    const contrasenaHasheada = await bcrypt.hash(datos.contrasena, 10);
+
+    let rutaImagen = '';
+
+    if (archivo) {
+      try {
+        rutaImagen = await new Promise<string>((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            { folder: 'socialite_perfiles' },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result!.secure_url);
+            }
+          );
+          const stream = require('stream');
+          const bufferStream = new stream.PassThrough();
+          bufferStream.end(archivo.buffer);
+          bufferStream.pipe(uploadStream);
+        });
+      } catch (error) {
+        console.error('Error al subir la foto desde el panel de admin:', error);
+      }
+    }
+    
+    const avatarIniciales = `https://ui-avatars.com/api/?name=${datos.nombre}+${datos.apellido}&background=1e1e24&color=8a2be2&size=400`;
+
+    const nuevoUsuario = new this.usuarioModel({
+      ...datos,
+      contrasena: contrasenaHasheada,
+      imagenPerfilUrl: rutaImagen || avatarIniciales
+      // el campo 'perfil' ('usuario' o 'administrador') viene dentro de 'datos'
+    });
+
+    return await nuevoUsuario.save();
+  }
+
+  // ALTA Y BAJA LÓGICA
+  async cambiarEstado(id: string, estado: boolean) {
+    const usuario = await this.usuarioModel.findByIdAndUpdate(
+      id,
+      { activo: estado },
+      { new: true } // devuelve el documento actualizado
+    ).select('-contrasena');
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+    
+    return usuario;
   }
 }

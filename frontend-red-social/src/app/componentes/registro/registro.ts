@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { validarRangoFecha } from '../../validaciones/validaciones';
 import { Auth } from '../../servicios/auth';
 
 @Component({
@@ -44,7 +45,7 @@ export class Registro implements OnInit {
         Validators.maxLength(100)
       ]],
       repetirContrasena: ['', [Validators.required, Validators.maxLength(100)]],
-      fechaNacimiento: ['', [Validators.required, this.validarRangoFecha]],
+      fechaNacimiento: ['', [Validators.required, validarRangoFecha()]],
       descripcionBreve: ['', [Validators.maxLength(150)]],
       imagenPerfil: ['', [Validators.required]] 
     }, { validators: this.passwordsCoinciden }); // se agrega el validador a todo el grupo
@@ -54,30 +55,6 @@ export class Registro implements OnInit {
         this.mensajeError.set('');
       }
     });
-  }
-
-  validarRangoFecha(control: AbstractControl): ValidationErrors | null {
-    if (!control.value) return null;
-
-    const fechaSeleccionada = new Date(control.value);
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0); // limpia las horas para comparar solo días
-
-    const limitePasado = new Date();
-    limitePasado.setFullYear(limitePasado.getFullYear() - 120);
-    limitePasado.setHours(0, 0, 0, 0);
-
-    // si la fecha elegida es mayor a hoy tira error
-    if (fechaSeleccionada > hoy) {
-      return { fechaFutura: true };
-    }
-
-     // si la fecha elegida es menor a hace 120 años tira error
-    if (fechaSeleccionada < limitePasado) {
-      return { fechaMuyAntigua: true };
-    }
-
-    return null;
   }
 
   // validador personalizado para verificar que coincidan

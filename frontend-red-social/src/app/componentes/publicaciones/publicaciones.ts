@@ -5,6 +5,7 @@ import { Publicacion } from './publicacion/publicacion';
 import { CrearPublicacion } from './crear-publicacion/crear-publicacion';
 import { PublicacionesService } from '../../servicios/publicaciones';
 
+
 @Component({
   selector: 'app-publicaciones',
   imports: [CommonModule, Publicacion, RouterModule, CrearPublicacion],
@@ -15,8 +16,8 @@ export class Publicaciones implements OnInit {
   listaPublicaciones = signal<any[]>([]);
   usuarioActual: any = null;
   
-  // Variables para la paginación
-  limit: number = 5; // Cargamos de a 5 posteos para poder probar bien el botón
+  // variables para la paginación
+  limit: number = 5; // carga de a 5 posteos para poder probar bien el botón
   offset: number = 0;
   ordenActual: string = 'fecha';
   hayMasPublicaciones: boolean = true;
@@ -47,7 +48,7 @@ export class Publicaciones implements OnInit {
           this.hayMasPublicaciones = false; 
         }
         
-        // sumna las nuevas publicaciones a la lista que ya habia
+        // suma las nuevas publicaciones a la lista que ya habia
         this.listaPublicaciones.update(postActuales => [...postActuales, ...data]);
         
         // prepara el offset para la próxima vez que el usuario toque "Cargar más"

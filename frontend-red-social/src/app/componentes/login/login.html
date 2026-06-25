@@ -11,7 +11,7 @@
           type="text" 
           id="correoOUsuario" 
           formControlName="correoOUsuario" 
-          placeholder="Ej: valen_tech o valentin@test.com"
+          placeholder="Ej: usuario77 o usuario77@mail.com"
           [class.input-error]="loginForm.get('correoOUsuario')?.touched && loginForm.get('correoOUsuario')?.invalid"
         >
         <span class="error" *ngIf="loginForm.get('correoOUsuario')?.touched && loginForm.get('correoOUsuario')?.hasError('required')">

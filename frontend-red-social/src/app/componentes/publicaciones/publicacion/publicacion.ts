@@ -2,10 +2,18 @@ import { Component, Input, OnInit, Output, EventEmitter, signal } from '@angular
 import { CommonModule } from '@angular/common';
 import { PublicacionesService } from '../../../servicios/publicaciones';
 import { RouterModule } from '@angular/router';
+import { TiempoHacePipe } from '../../../pipes/tiempo-hace-pipe';
+import { TruncarTextoPipe } from '../../../pipes/truncar-texto-pipe';
+import { RangoPipe } from '../../../pipes/rango-pipe';
+import { EfectoTerminalDirective } from '../../../directivas/efecto-terminal.directive';
+import { ScrollAnimadoDirective } from "../../../directivas/scroll-animado.directive";
+import { ClickAfueraDirective } from '../../../directivas/click-afuera.directive';
 
 @Component({
   selector: 'app-publicacion',
-  imports: [ CommonModule, RouterModule ],
+  imports: [ CommonModule, RouterModule, TiempoHacePipe,
+             TruncarTextoPipe, RangoPipe, EfectoTerminalDirective,
+             ScrollAnimadoDirective, ClickAfueraDirective ],
   templateUrl: './publicacion.html',
   styleUrl: './publicacion.css',
 })
@@ -18,6 +26,7 @@ export class Publicacion implements OnInit {
   miUsuarioId: string = '';
   yaLeDiLike = signal<boolean>(false);
   textoExpandido = signal<boolean>(false);
+  usuarioActual: any = null;
 
   constructor(private publicacionesService: PublicacionesService) {}
 
@@ -25,8 +34,8 @@ export class Publicacion implements OnInit {
     // busca mi ID en el localStorage
     const usuario = localStorage.getItem('usuario');
     if (usuario) {
-      const usuarioParseado = JSON.parse(usuario);
-      this.miUsuarioId = usuarioParseado.id || usuarioParseado._id;
+      this.usuarioActual = JSON.parse(usuario);
+      this.miUsuarioId = this.usuarioActual.id || this.usuarioActual._id;
     }
 
     this.verificarLike();

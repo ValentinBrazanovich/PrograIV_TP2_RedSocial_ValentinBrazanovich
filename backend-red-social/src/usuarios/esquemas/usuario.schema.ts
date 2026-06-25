@@ -27,8 +27,10 @@ export class Usuario extends Document {
   // por defecto el perfil es "usuario", pero puede cambiarse a "administrador"
   @Prop({ default: 'usuario', enum: ['usuario', 'administrador'] })
   perfil!: string;
+  
+  @Prop({ default: true })
+  activo!: boolean;
 
-  // aca se guarda la URL de la imagen cuando resuelva lo de subir archivos ------------------------------
   @Prop()
   imagenPerfilUrl!: string;
 }

@@ -6,7 +6,15 @@
     </div>
 
     <nav class="navegacion-franja">
-      <a routerLink="/publicaciones" class="item-franja">🏠 Inicio</a>
+      <a routerLink="/publicaciones" class="item-franja">
+        🏠 Inicio
+      </a>
+      <a *ngIf="usuarioActual?.perfil === 'administrador'" routerLink="/dashboard/usuarios" class="item-franja btn-panel-admin">
+        👥 Panel de Usuarios
+      </a>
+      <a *ngIf="usuarioActual?.perfil === 'administrador'" routerLink="/dashboard/estadisticas" class="item-franja btn-panel-admin">
+        📊 Ver Estadísticas
+      </a>
     </nav>
     <button class="item-franja btn-salir" (click)="cerrarSesion()">
         🚪 Cerrar Sesión
@@ -20,7 +28,7 @@
         
         <div class="info-principal">
           <div class="contenedor-avatar">
-            <img [src]="usuarioActual?.imagenPerfilUrl || 'assets/avatar-default.png'" alt="Mi Avatar" class="avatar-perfil">
+            <img [src]="usuarioActual?.imagenPerfilUrl" alt="Mi Avatar" class="avatar-perfil">
           </div>
           
           <div class="datos-usuario">
@@ -62,7 +70,7 @@
   </main>
 
 </div> <div class="modal-overlay" *ngIf="mostrarModal()">
-  <div class="modal-contenido">
+  <div class="modal-contenido" (appClickAfuera)="cerrarModal()">
     <h3>Editar Mi Perfil</h3>
     
     <div class="formulario-edicion">

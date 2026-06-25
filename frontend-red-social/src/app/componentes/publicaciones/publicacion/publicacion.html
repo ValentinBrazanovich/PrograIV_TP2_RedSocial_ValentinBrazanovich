@@ -1,20 +1,22 @@
-<div class="tarjeta-publicacion">
+<div class="tarjeta-publicacion" appScrollAnimado>
   <div class="cabecera">
     <div class="info-usuario">
       <img [src]="publicacion?.creador?.imagenPerfilUrl" alt="Avatar" class="avatar">
       <div class="texto-cabecera">
         <h4>{{ publicacion?.creador?.nombreUsuario }}</h4>
-        <span class="fecha">{{ publicacion?.createdAt | date:'short' }}</span> 
+        
+        <span class="fecha">{{ publicacion?.createdAt | tiempoHace }}</span> 
       </div>
     </div>
     
-    <button class="btn-eliminar" *ngIf="publicacion?.creador?._id === miUsuarioId" (click)="intentarBorrar()">
+    <button class="btn-eliminar" *ngIf="publicacion?.creador?._id === miUsuarioId || usuarioActual?.perfil === 'administrador'" (click)="intentarBorrar()">
       Eliminar
     </button>
   </div>
 
   <div class="cuerpo">
-    <h3 class="titulo">{{ publicacion?.titulo }}</h3>
+    <h3 class="titulo" appEfectoTerminal>{{ publicacion?.titulo | truncarTexto: 35 }}</h3>
+    
     <div class="contenido-texto">
       <p class="descripcion">
         {{ textoExpandido() ? publicacion?.descripcion : (publicacion?.descripcion | slice:0:200) }}
@@ -39,6 +41,9 @@
       <span class="icono">♥</span> 
       <span class="contador">{{ publicacion?.cantidadLikes || 0 }}</span>
     </button>
+    <span class="etiqueta-rango" style="margin-left: 10px; color: #00ffcc; font-size: 0.85rem; font-weight: 600;">
+      {{ publicacion?.cantidadLikes | rango }}
+    </span>
     <button class="btn-comentarios" [routerLink]="['/publicacion', publicacion?._id]">
       💬 Comentarios
     </button>
@@ -47,7 +52,7 @@
 </div>
 
 <div class="modal-overlay" *ngIf="mostrarModalEliminar()">
-  <div class="modal-contenido">
+  <div class="modal-contenido" (appClickAfuera)="cancelarBorrado()">
     <h3>¿Eliminar publicación?</h3>
     <p>Esta acción no se puede deshacer y el posteo se perderá para siempre.</p>
     

@@ -9,7 +9,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/app/componentes/dashboard-estadisticas"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

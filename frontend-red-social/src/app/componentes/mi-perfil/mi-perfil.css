@@ -431,10 +431,23 @@
 
 .btn-cargar-mas:hover {
   background: rgba(138, 43, 226, 0.05);
-  border-color: var(--violeta-neon, #8a2be2); /* El borde se prende al pasar el mouse */
+  border-color: var(--violeta-neon, #8a2be2);
   box-shadow: 0 0 15px rgba(138, 43, 226, 0.15);
 }
 
 .btn-cargar-mas:active {
-  transform: scale(0.98); /* Se hunde un poquito al hacer clic */
+  transform: scale(0.98); /* se hunde un poquito al hacer clic */
+}
+
+.btn-panel-admin {
+  color: #d1a3ff;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-panel-admin:hover {
+  color: #fff;
+  border-left: 3px solid #8a2be2;
+  background-color: rgba(138, 43, 226, 0.1);
+  text-shadow: 0 0 8px rgba(138, 43, 226, 0.6);
 }

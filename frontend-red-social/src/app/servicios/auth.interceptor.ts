@@ -7,9 +7,13 @@ import { throwError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
 
+  const peticionClonada = req.clone({
+    withCredentials: true
+  });
+
   // next(req) deja que la petición vaya hacia el backend
   // el .pipe() intercepta la respuesta cuando vuelve
-  return next(req).pipe(
+  return next(peticionClonada).pipe(
     catchError((error: HttpErrorResponse) => {
       
       // si el backend devuelve "401 Unauthorized"

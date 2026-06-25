@@ -7,7 +7,7 @@ import { AutenticacionGuard } from '../autenticacion/autenticacion.guard';
 import { CrearComentarioDto, ModificarComentarioDto } from './dto/comentarios.dto';
 
 @Controller('publicaciones')
-@UseGuards(AutenticacionGuard) // Protege TODAS las rutas de este controlador
+@UseGuards(AutenticacionGuard) // protege TODAS las rutas de este controlador
 export class PublicacionesController {
   constructor(private readonly publicacionesService: PublicacionesService) {}
 
@@ -50,9 +50,9 @@ export class PublicacionesController {
   // dar de baja una publicación (DELETE /publicaciones/:id)
   @Delete(':id')
   async darBaja(@Param('id') idPublicacion: string, @Req() peticion: any) {
-    const usuarioId = peticion.user.id;
+    const usuarioLogueado = peticion.user;
 
-    return this.publicacionesService.darBaja(idPublicacion, usuarioId);
+    return this.publicacionesService.darBaja(idPublicacion, usuarioLogueado);
   }
 
   // dar Me Gusta (POST /publicaciones/:id/like)

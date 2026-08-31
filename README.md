@@ -1,11 +1,12 @@
 # Socialite - Web Application
 
-A responsive social networking web platform built with **Angular**, **TypeScript**, and **Supabase**. The application allows users to register, manage profiles, publish posts, and interact within a modern single-page interface.
+A responsive Progressive Web App (PWA) and social networking platform built with **Angular**, **TypeScript**, and **Supabase**. The application allows users to register, manage profiles, publish posts, and visualize platform metrics with full installability and offline support.
 
 ---
 
 ## Key Features
 
+* **Progressive Web App (PWA):** Built with native-like installability, web app manifest configuration, and service workers for fast loading and offline asset caching.
 * **User Authentication & Authorization:** Secure registration, login, and session persistence handled via Supabase Auth and Angular Route Guards.
 * **Component-Based Architecture:** Modular structure utilizing reusable components, custom services, and typed data models.
 * **Reactive Forms:** Robust client-side validation and dynamic user input handling.
@@ -16,7 +17,8 @@ A responsive social networking web platform built with **Angular**, **TypeScript
 
 ## Tech Stack
 
-* **Frontend:** Angular, TypeScript, HTML5, SCSS / Modern CSS
+* **Frontend:** Angular, TypeScript, PWA (@angular/pwa, Service Workers), HTML5, SCSS
+* **Data Visualization:** Chart.js *(o la librería que hayas usado)*
 * **Backend as a Service:** Supabase (PostgreSQL, Auth, Real-time APIs)
 * **Tooling:** Angular CLI, Node.js, Git
 

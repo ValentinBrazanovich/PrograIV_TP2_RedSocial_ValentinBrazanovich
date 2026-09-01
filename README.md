@@ -62,5 +62,5 @@ A full-stack responsive Progressive Web App (PWA) and social networking platform
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/ValentinBrazanovich/Socialite.git](https://github.com/ValentinBrazanovich/Socialite.git)
+   git clone https://github.com/ValentinBrazanovich/Socialite.git
    cd Socialite

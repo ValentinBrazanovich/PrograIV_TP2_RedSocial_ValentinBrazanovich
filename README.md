@@ -1,26 +1,54 @@
-# Socialite - Web Application
+# Socialite - Progressive Web Application (PWA)
 
-A responsive Progressive Web App (PWA) and social networking platform built with **Angular**, **TypeScript**, and **Supabase**. The application allows users to register, manage profiles, publish posts, and visualize platform metrics with full installability and offline support.
+A full-stack responsive Progressive Web App (PWA) and social networking platform built with **Angular**, **NestJS**, and **MongoDB**. The application allows users to register, publish posts with cloud image uploads, interact across devices, and manage platform activity via an administrative dashboard with interactive analytics.
+
+---
+
+## Screenshots
+
+### Authentication
+| Sign In | Sign Up |
+| :---: | :---: |
+| ![Sign In](screenshots/login.png) | ![Sign Up](screenshots/register.png) |
+
+### Responsive Main Feed
+| Desktop View | Mobile / Scaled View |
+| :---: | :---: |
+| ![Feed Desktop](screenshots/feed-desktop.png) | ![Feed Responsive](screenshots/feed-responsive.png) |
+
+### Administration Panel
+| User Management (CRUD & Roles) | Analytics & Metrics |
+| :---: | :---: |
+| ![User Management](screenshots/admin-users.png) | ![Admin Analytics](screenshots/admin-analytics.png) |
 
 ---
 
 ## Key Features
 
-* **Progressive Web App (PWA):** Built with native-like installability, web app manifest configuration, and service workers for fast loading and offline asset caching.
-* **User Authentication & Authorization:** Secure registration, login, and session persistence handled via Supabase Auth and Angular Route Guards.
-* **Component-Based Architecture:** Modular structure utilizing reusable components, custom services, and typed data models.
-* **Reactive Forms:** Robust client-side validation and dynamic user input handling.
-* **Real-time Database Integration:** Asynchronous CRUD operations for user posts and feeds.
-* **Responsive UI:** Clean interface optimized for desktop and mobile devices.
+* **Progressive Web App (PWA):** Configured with `@angular/service-worker` for native-like installability, web manifest configuration, and offline asset caching.
+* **Cloud Media Storage:** Stream-based image uploading for posts and user profiles integrated via **Cloudinary API**.
+* **DTO Validation & Data Integrity:** Strict payload validation and sanitization using `class-validator` and `class-transformer`.
+* **Interactive Analytics Dashboard:** Dedicated administrative view featuring 3 dynamic charts powered by **Chart.js** and **ng2-charts** to track platform metrics and user trends.
+* **Admin Management Suite (RBAC):** Role-based access control enabling administrators to grant/revoke admin privileges and toggle user account statuses.
+* **Secure Authentication & Sessions:** JWT authentication, bcrypt password hashing, HTTP-only cookies, and Angular Route Guards.
+* **Responsive Layout:** Adaptive single-page application built with Angular and Angular CDK for desktop, tablet, and mobile support.
 
 ---
 
 ## Tech Stack
 
-* **Frontend:** Angular, TypeScript, PWA (@angular/pwa, Service Workers), HTML5, SCSS
-* **Data Visualization:** Chart.js *(o la librería que hayas usado)*
-* **Backend as a Service:** Supabase (PostgreSQL, Auth, Real-time APIs)
-* **Tooling:** Angular CLI, Node.js, Git
+### Frontend
+* **Core:** Angular, TypeScript, SCSS, HTML5
+* **PWA & Layout:** `@angular/service-worker`, Angular CDK
+* **Data Visualization:** Chart.js, ng2-charts
+* **Tooling:** Angular CLI, Vitest, Prettier
+
+### Backend
+* **Framework:** NestJS (Node.js & Express)
+* **Database & ODM:** MongoDB Atlas, Mongoose
+* **Security & Auth:** JWT (`@nestjs/jwt`), bcrypt, cookie-parser
+* **Media & Utilities:** Cloudinary, Streamifier, class-validator, class-transformer
+* **Configuration & Deployment:** `@nestjs/config`, Vercel (Serverless Functions)
 
 ---
 
@@ -32,7 +60,7 @@ A responsive Progressive Web App (PWA) and social networking platform built with
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/tu-usuario/nombre-del-repo.git](https://github.com/tu-usuario/nombre-del-repo.git)
-   cd nombre-del-repo
+   git clone [https://github.com/ValentinBrazanovich/Socialite.git](https://github.com/ValentinBrazanovich/Socialite.git)
+   cd Socialite
